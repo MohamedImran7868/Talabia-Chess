@@ -14,7 +14,6 @@ public class ChessController {
     public static JButton[][] buttonsall = new JButton[column][row]; // JButton for each tile (42)
     private static Map<String, PointPiece> piecesMap = new HashMap<>(); // Map to store information about each piece
     private JButton selectedButton = null;
-    private boolean isPlayerOneTurn = true;
 
     public ChessController(GUI view) {
         this.view = view;
@@ -34,35 +33,35 @@ public class ChessController {
         
         // Add pieces at initial places
         // blue pieces
-        piecesMap.put("blue_point0", new PointPiece("blue_point0", new File(piecesFolder, "blue_PointPiece.png"), 1, 0, 0));
-        piecesMap.put("blue_point1", new PointPiece("blue_point1", new File(piecesFolder, "blue_PointPiece.png"), 1, 1, 0));
-        piecesMap.put("blue_point2", new PointPiece("blue_point2", new File(piecesFolder, "blue_PointPiece.png"), 1, 2, 0));
-        piecesMap.put("blue_point3", new PointPiece("blue_point3", new File(piecesFolder, "blue_PointPiece.png"), 1, 3, 0));
-        piecesMap.put("blue_point4", new PointPiece("blue_point4", new File(piecesFolder, "blue_PointPiece.png"), 1, 4, 0));
-        piecesMap.put("blue_point5", new PointPiece("blue_point5", new File(piecesFolder, "blue_PointPiece.png"), 1, 5, 0));
-        piecesMap.put("blue_point6", new PointPiece("blue_point6", new File(piecesFolder, "blue_PointPiece.png"), 1, 6, 0));
-        piecesMap.put("blue_plus0", new PointPiece("blue_plus0", new File(piecesFolder, "blue_PlusPiece.png"), 0, 0, 0));
-        piecesMap.put("blue_plus1", new PointPiece("blue_plus1", new File(piecesFolder, "blue_PlusPiece.png"), 0, 6, 0));
-        piecesMap.put("blue_hourglass0", new PointPiece("blue_hourglass0", new File(piecesFolder, "blue_HourglassPiece.png"), 0, 1, 0));
-        piecesMap.put("blue_hourglass1", new PointPiece("blue_hourglass1", new File(piecesFolder, "blue_HourglassPiece.png"), 0, 5, 0));
-        piecesMap.put("blue_time0", new PointPiece("blue_time0", new File(piecesFolder, "blue_TimePiece.png"), 0, 2, 0));
-        piecesMap.put("blue_time1", new PointPiece("blue_time1", new File(piecesFolder, "blue_TimePiece.png"), 0, 4, 0));
+        piecesMap.put("blue_point0", new PointPiece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 0, 0));
+        piecesMap.put("blue_point1", new PointPiece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 1, 0));
+        piecesMap.put("blue_point2", new PointPiece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 2, 0));
+        piecesMap.put("blue_point3", new PointPiece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 3, 0));
+        piecesMap.put("blue_point4", new PointPiece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 4, 0));
+        piecesMap.put("blue_point5", new PointPiece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 5, 0));
+        piecesMap.put("blue_point6", new PointPiece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 6, 0));
+        piecesMap.put("blue_plus0", new PointPiece("blue_plus", new File(piecesFolder, "blue_PlusPiece.png"), 0, 0, 0));
+        piecesMap.put("blue_plus1", new PointPiece("blue_plus", new File(piecesFolder, "blue_PlusPiece.png"), 0, 6, 0));
+        piecesMap.put("blue_hourglass0", new PointPiece("blue_hourglass", new File(piecesFolder, "blue_HourglassPiece.png"), 0, 1, 0));
+        piecesMap.put("blue_hourglass1", new PointPiece("blue_hourglass", new File(piecesFolder, "blue_HourglassPiece.png"), 0, 5, 0));
+        piecesMap.put("blue_time0", new PointPiece("blue_time", new File(piecesFolder, "blue_TimePiece.png"), 0, 2, 0));
+        piecesMap.put("blue_time1", new PointPiece("blue_time", new File(piecesFolder, "blue_TimePiece.png"), 0, 4, 0));
         piecesMap.put("blue_sun", new PointPiece("blue_sun", new File(piecesFolder, "blue_SunPiece.png"), 0, 3, 0));
         
         // yellow pieces
-        piecesMap.put("yellow_point0", new PointPiece("yellow_point0", new File(piecesFolder, "yellow_PointPiece.png"), 4, 0, 1));
-        piecesMap.put("yellow_point1", new PointPiece("yellow_point1", new File(piecesFolder, "yellow_PointPiece.png"), 4, 1, 1));
-        piecesMap.put("yellow_point2", new PointPiece("yellow_point2", new File(piecesFolder, "yellow_PointPiece.png"), 4, 2, 1));
-        piecesMap.put("yellow_point3", new PointPiece("yellow_point3", new File(piecesFolder, "yellow_PointPiece.png"), 4, 3, 1));
-        piecesMap.put("yellow_point4", new PointPiece("yellow_point4", new File(piecesFolder, "yellow_PointPiece.png"), 4, 4, 1));
-        piecesMap.put("yellow_point5", new PointPiece("yellow_point5", new File(piecesFolder, "yellow_PointPiece.png"), 4, 5, 1));
-        piecesMap.put("yellow_point6", new PointPiece("yellow_point6", new File(piecesFolder, "yellow_PointPiece.png"), 4, 6, 1));
-        piecesMap.put("yellow_plus0", new PointPiece("yellow_plus0", new File(piecesFolder, "yellow_PlusPiece.png"), 5, 0, 1));
-        piecesMap.put("yellow_plus1", new PointPiece("yellow_plus1", new File(piecesFolder, "yellow_PlusPiece.png"), 5, 6, 1));
-        piecesMap.put("yellow_hourglass0", new PointPiece("yellow_hourglass0", new File(piecesFolder, "yellow_Hourglasspiece.png"), 5, 1, 1));
-        piecesMap.put("yellow_hourglass1", new PointPiece("yellow_hourglass1", new File(piecesFolder, "yellow_Hourglasspiece.png"), 5, 5, 1));
-        piecesMap.put("yellow_time0", new PointPiece("yellow_time0", new File(piecesFolder, "yellow_TimePiece.png"), 5, 2, 1));
-        piecesMap.put("yellow_time1", new PointPiece("yellow_time1", new File(piecesFolder, "yellow_TimePiece.png"), 5, 4, 1));
+        piecesMap.put("yellow_point0", new PointPiece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 0, 1));
+        piecesMap.put("yellow_point1", new PointPiece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 1, 1));
+        piecesMap.put("yellow_point2", new PointPiece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 2, 1));
+        piecesMap.put("yellow_point3", new PointPiece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 3, 1));
+        piecesMap.put("yellow_point4", new PointPiece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 4, 1));
+        piecesMap.put("yellow_point5", new PointPiece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 5, 1));
+        piecesMap.put("yellow_point6", new PointPiece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 6, 1));
+        piecesMap.put("yellow_plus0", new PointPiece("yellow_plus", new File(piecesFolder, "yellow_PlusPiece.png"), 5, 0, 1));
+        piecesMap.put("yellow_plus1", new PointPiece("yellow_plus", new File(piecesFolder, "yellow_PlusPiece.png"), 5, 6, 1));
+        piecesMap.put("yellow_hourglass0", new PointPiece("yellow_hourglass", new File(piecesFolder, "yellow_Hourglasspiece.png"), 5, 1, 1));
+        piecesMap.put("yellow_hourglass1", new PointPiece("yellow_hourglass", new File(piecesFolder, "yellow_Hourglasspiece.png"), 5, 5, 1));
+        piecesMap.put("yellow_time0", new PointPiece("yellow_time", new File(piecesFolder, "yellow_TimePiece.png"), 5, 2, 1));
+        piecesMap.put("yellow_time1", new PointPiece("yellow_time", new File(piecesFolder, "yellow_TimePiece.png"), 5, 4, 1));
         piecesMap.put("yellow_sun", new PointPiece("yellow_sun", new File(piecesFolder, "yellow_SunPiece.png"), 5, 3, 1)); 
 
     }
@@ -121,6 +120,88 @@ public class ChessController {
         return getPieceAtPosition(x, y);
     }
 
+    private boolean ismovevalid (PointPiece selectedPiece, int x, int y) {
+
+        String name = selectedPiece.name ;
+        int ydistance = y - selectedPiece.yCoordinate;
+        int xdistance = x - selectedPiece.xCoordinate;
+
+        System.out.println("Name: " + name);
+        System.out.println("X: " + selectedPiece.xCoordinate);
+        System.out.println("Y: " + selectedPiece.yCoordinate);
+        System.out.println("DX: " + xdistance);
+        System.out.println("DY: " + ydistance);
+        
+        switch (name) {
+            case "blue_point":
+                // Blue Point piece
+
+                if ((xdistance == 1 || xdistance == 2) && ydistance == 0)
+                {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            case "yellow_point":
+                // Yellow Point piece
+
+                if ((xdistance == -1 || xdistance == -2) && ydistance == 0)
+                {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+                
+            case "blue_hourglass":
+            case "yellow_hourglass":
+                // Hourglass piece
+                if ((Math.abs(xdistance) == 1 && Math.abs(ydistance) == 2) || (Math.abs(xdistance) == 2 && Math.abs(ydistance) == 1))
+                {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+                
+            case "blue_time":
+            case "yellow_time":
+                // Time piece
+                if (Math.abs(xdistance) == Math.abs(ydistance))
+                {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+                
+            case "blue_plus":
+            case "yellow_plus":
+                // Plus piece
+                if (xdistance == 0 || ydistance == 0)
+                {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+                
+            case "blue_sun":
+            case "yellow_sun":
+                // Sun piece
+                if ((Math.abs(xdistance) == 1 && ydistance ==0) || (Math.abs(ydistance) == 1 && xdistance ==0) || (Math.abs(ydistance) == 1 && Math.abs(xdistance) == 1))
+                {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            default:
+                return false;
+        }
+    }
+
     public class ButtonClickListener implements ActionListener {
         private int x; 
         private int y; 
@@ -137,8 +218,6 @@ public class ChessController {
             // Check if the clicked button has a piece
             PointPiece clickedPiece = getPieceAtPosition(x, y);
 
-            //if (getPieceAtPosition(x, y) != null && getPieceAtPosition(x, y).getPlayer() == currentPlayer)
-
             if (clickedPiece != null) {
                 // If a piece is clicked, store it as the selected piece
                 selectedButton = clickedButton;
@@ -147,22 +226,26 @@ public class ChessController {
                 // move the piece to the clicked button
                 PointPiece selectedPiece = getPieceAtPosition(selectedButton);
 
-                // Update the piecesMap with the new coordinates
-                selectedPiece.xCoordinate = x;
-                selectedPiece.yCoordinate = y;
+                if (ismovevalid(selectedPiece, x, y)) {
+                    // Update the piecesMap with the new coordinates
+                    selectedPiece.xCoordinate = x;
+                    selectedPiece.yCoordinate = y;
 
-                // Update the view with the new icon for the clicked button
-                view.setIconForButton(clickedButton, selectedPiece.getImagePath(), selectedPiece.getName());
+                    // Update the view with the new icon for the clicked button
+                    view.setIconForButton(clickedButton, selectedPiece.getImagePath(), selectedPiece.getName());
 
-                // Clear the icon for the selected button
-                selectedButton.setIcon(null);
+                    // Clear the icon for the selected button
+                    selectedButton.setIcon(null);
 
-                // Clear the selected button
-                selectedButton = null;
+                    // Clear the selected button
+                    selectedButton = null;
+                } else {
+                    return;
+                }
 
-                // Switch the player after a successful move
-                switchPlayer();
+                
             }
         }
     }
 }
+
