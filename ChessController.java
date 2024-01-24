@@ -14,6 +14,7 @@ public class ChessController {
     public static JButton[][] buttonsall = new JButton[column][row]; // JButton for each tile (42)
     private static Map<String, PointPiece> piecesMap = new HashMap<>(); // Map to store information about each piece
     private JButton selectedButton = null;
+    private boolean isPlayerOneTurn = true;
 
     public ChessController(GUI view) {
         this.view = view;
@@ -93,47 +94,31 @@ public class ChessController {
         }
     }
 
-    private PointPiece getPieceAtPosition(int x, int y) {
+    private PointPiece getPieceAtPosition(int xCoordinate, int yCoordinate) {
         for (PointPiece piece : piecesMap.values()) {
-            if (piece.getX() == x && piece.getY() == y) {
+            if (piece.xCoordinate == xCoordinate && piece.yCoordinate == yCoordinate) {
                 return piece;
             }
         }
         return null;
     }
 
-    private void updatepieces(JButton selectedButton, int newx, int newy) {
-        // Assuming that the action command of the button corresponds to the piece name
-        String name = selectedButton.getActionCommand(); 
-    
-        // Retrieve the piece from the piecesMap using the name
-        PointPiece piece = piecesMap.get(name);
+    private PointPiece getPieceAtPosition(JButton button) {
+        int x = -1;
+        int y = -1;
 
-        System.out.println("Information");
-    
-        if (piece != null) {
-            File file = piece.getImagePath(); 
-            int oldx = piece.getX(); 
-            int oldy = piece.getY();
-            int player = piece.getPlayer();
-
-            // remove the existing
-            piecesMap.remove(name);
-            
-            // put the new one
-            piecesMap.put(name, new PointPiece(name, file, newx, newy, player)); 
-
-            // Update the piece's coordinates with the new values
-            //piece.xCoordinate = newx;
-            //piece.yCoordinate = newy;
-    
-            // Now you have the attributes for the specific selectedButton
-            System.out.println("Name: " + name);
-            System.out.println("File: " + file);
-            System.out.println("X: " + newx);
-            System.out.println("Y: " + newy);
-            System.out.println("Player: " + player);
+        // Find the coordinates of the button
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 7; j++) {
+                if (buttonsall[i][j] == button) {
+                    x = i;
+                    y = j;
+                    break;
+                }
+            }
         }
+
+        return getPieceAtPosition(x, y);
     }
 
     public class ButtonClickListener implements ActionListener {
@@ -147,29 +132,37 @@ public class ChessController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            JButton clickedButton = (JButton) e.getSource();
-            // Check if it's the correct player's turn
-            if (selectedButton == null && getPieceAtPosition(x, y) != null) {
+            JButton clickedButton = buttonsall[x][y];
+
+            // Check if the clicked button has a piece
+            PointPiece clickedPiece = getPieceAtPosition(x, y);
+
+            //if (getPieceAtPosition(x, y) != null && getPieceAtPosition(x, y).getPlayer() == currentPlayer)
+
+            if (clickedPiece != null) {
+                // If a piece is clicked, store it as the selected piece
                 selectedButton = clickedButton;
-            } else if (selectedButton != null && getPieceAtPosition(x, y) == null) {
-                System.out.println("\nSelected button\n");
-                System.out.println("x: " + x);
-                System.out.println("y: " + y);
-                
-                // Exchange icons between the selected button and the clicked button
-                Icon tempIcon = selectedButton.getIcon();
-                selectedButton.setIcon(clickedButton.getIcon());
-                clickedButton.setIcon(tempIcon);
+            } else if (selectedButton != null) {
+                // If a button without a piece is clicked and a piece is selected,
+                // move the piece to the clicked button
+                PointPiece selectedPiece = getPieceAtPosition(selectedButton);
 
-                updatepieces(selectedButton, x, y);
+                // Update the piecesMap with the new coordinates
+                selectedPiece.xCoordinate = x;
+                selectedPiece.yCoordinate = y;
 
-                // Reset the selectedButton to null after the exchange
+                // Update the view with the new icon for the clicked button
+                view.setIconForButton(clickedButton, selectedPiece.getImagePath(), selectedPiece.getName());
+
+                // Clear the icon for the selected button
+                selectedButton.setIcon(null);
+
+                // Clear the selected button
                 selectedButton = null;
-            
-            } else {
-                selectedButton = null;
+
+                // Switch the player after a successful move
+                switchPlayer();
             }
         }
     }
 }
-
