@@ -8,6 +8,7 @@ import java.util.Map;
 
 public class ChessController {
     private GUI view;
+    private PointPiece selectedPiece;
     private int currentPlayer;
     public static int row = 7;
     public static int column = 6;
@@ -120,7 +121,7 @@ public class ChessController {
         return getPieceAtPosition(x, y);
     }
 
-    private boolean ismovevalid (PointPiece selectedPiece, int x, int y) {
+    private boolean ismovevalid (int x, int y) {
 
         String name = selectedPiece.name ;
         int ydistance = y - selectedPiece.yCoordinate;
@@ -224,12 +225,15 @@ public class ChessController {
             } else if (selectedButton != null) {
                 // If a button without a piece is clicked and a piece is selected,
                 // move the piece to the clicked button
-                PointPiece selectedPiece = getPieceAtPosition(selectedButton);
+                selectedPiece = getPieceAtPosition(selectedButton);
 
-                if (ismovevalid(selectedPiece, x, y)) {
+                if (ismovevalid(x, y)) {
                     // Update the piecesMap with the new coordinates
                     selectedPiece.xCoordinate = x;
                     selectedPiece.yCoordinate = y;
+
+                    System.out.println("NewX: " + selectedPiece.xCoordinate);
+                    System.out.println("NewY: " + selectedPiece.yCoordinate);
 
                     // Update the view with the new icon for the clicked button
                     view.setIconForButton(clickedButton, selectedPiece.getImagePath(), selectedPiece.getName());
