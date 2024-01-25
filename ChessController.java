@@ -121,11 +121,13 @@ public class ChessController {
         return getPieceAtPosition(x, y);
     }
 
+    // Movement Logic
     private boolean ismovevalid (int x, int y) {
 
         String name = selectedPiece.name ;
         int ydistance = y - selectedPiece.yCoordinate;
         int xdistance = x - selectedPiece.xCoordinate;
+        boolean gotpiece = false;
 
         System.out.println("Name: " + name);
         System.out.println("X: " + selectedPiece.xCoordinate);
@@ -139,7 +141,25 @@ public class ChessController {
 
                 if ((xdistance == 1 || xdistance == 2) && ydistance == 0)
                 {
-                    return true;
+                    if (xdistance == 2) {
+                        // Check if there are any pieces
+                        for (int i = selectedPiece.xCoordinate; i < x; i++) {
+                            PointPiece checkPiece = getPieceAtPosition(i, y);
+                            if (checkPiece == null) {
+                                gotpiece = true;
+                            } else {
+                                gotpiece = false;
+                            }
+                        }
+    
+                        if (gotpiece) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        return true;
+                    } 
                 }
                 else {
                     return false;
@@ -149,7 +169,25 @@ public class ChessController {
 
                 if ((xdistance == -1 || xdistance == -2) && ydistance == 0)
                 {
-                    return true;
+                    if (xdistance == -2) {
+                        // Check if there are any pieces
+                        for (int i = x; i < selectedPiece.xCoordinate; i++) {
+                            PointPiece checkPiece = getPieceAtPosition(i, y);
+                            if (checkPiece == null) {
+                                gotpiece = true;
+                            } else {
+                                gotpiece = false;
+                            }
+                        }
+    
+                        if (gotpiece) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        return true;
+                    } 
                 }
                 else {
                     return false;
@@ -157,7 +195,7 @@ public class ChessController {
                 
             case "blue_hourglass":
             case "yellow_hourglass":
-                // Hourglass piece
+                // Hourglass piece can skip over pieces
                 if ((Math.abs(xdistance) == 1 && Math.abs(ydistance) == 2) || (Math.abs(xdistance) == 2 && Math.abs(ydistance) == 1))
                 {
                     return true;
@@ -171,7 +209,91 @@ public class ChessController {
                 // Time piece
                 if (Math.abs(xdistance) == Math.abs(ydistance))
                 {
-                    return true;
+                    if (Math.abs(xdistance) > 1) {
+                        // When the targeted piece coordinate is smaller than selected Piece Coordinate
+                        if (x < selectedPiece.xCoordinate && y < selectedPiece.yCoordinate) {
+                            // Check if there are any pieces
+                            for (int i = x; i < selectedPiece.xCoordinate; i++) {
+                                for (int j = y; j < selectedPiece.yCoordinate; j++) {
+                                    PointPiece checkPiece = getPieceAtPosition(i, j);
+                                    if (checkPiece == null) {
+                                        gotpiece = true;
+                                    } else {
+                                        gotpiece = false;
+                                    }
+                                }
+                                
+                            }
+        
+                            if (gotpiece) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        } // When the targeted piece coordinate is bigger than selected Piece Coordinate
+                        else if (x > selectedPiece.xCoordinate && y > selectedPiece.yCoordinate) {
+                            // Check if there are any pieces
+                            for (int i = selectedPiece.xCoordinate; i < x; i++) {
+                                for (int j = selectedPiece.yCoordinate; j < y; j++) {
+                                    PointPiece checkPiece = getPieceAtPosition(i, j);
+                                    if (checkPiece == null) {
+                                        gotpiece = true;
+                                    } else {
+                                        gotpiece = false;
+                                    }
+                                }
+                                
+                            }
+        
+                            if (gotpiece) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        } // When the targeted piece xcoordinate is smaller than selected Piece xCoordinate and vice versa for ycoordinate
+                        else if (x < selectedPiece.xCoordinate && y > selectedPiece.yCoordinate) {
+                            // Check if there are any pieces
+                            for (int i = x; i < selectedPiece.xCoordinate; i++) {
+                                for (int j = selectedPiece.yCoordinate; j < y; j++) {
+                                    PointPiece checkPiece = getPieceAtPosition(i, j);
+                                    if (checkPiece == null) {
+                                        gotpiece = true;
+                                    } else {
+                                        gotpiece = false;
+                                    }
+                                }
+                                
+                            }
+        
+                            if (gotpiece) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        } // When the targeted piece ycoordinate is smaller than selected Piece yCoordinate and vice versa for xcoordinate
+                        else if (x > selectedPiece.xCoordinate && y < selectedPiece.yCoordinate) {
+                            // Check if there are any pieces
+                            for (int i = selectedPiece.xCoordinate; i < x; i++) {
+                                for (int j = y; j < selectedPiece.yCoordinate; j++) {
+                                    PointPiece checkPiece = getPieceAtPosition(i, j);
+                                    if (checkPiece == null) {
+                                        gotpiece = true;
+                                    } else {
+                                        gotpiece = false;
+                                    }
+                                }
+                                
+                            }
+        
+                            if (gotpiece) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+                    } else {
+                        return true;
+                    }
                 }
                 else {
                     return false;
@@ -182,7 +304,79 @@ public class ChessController {
                 // Plus piece
                 if (xdistance == 0 || ydistance == 0)
                 {
-                    return true;
+                    if (xdistance == 0) {
+                        // When the targeted piece ycoordinate is smaller than selected Piece yCoordinate
+                        if (y < selectedPiece.yCoordinate) {
+                            // Check if there are any pieces
+                            for (int i = y; i < selectedPiece.yCoordinate; i++) {
+                                PointPiece checkPiece = getPieceAtPosition(x, i);
+                                if (checkPiece == null) {
+                                    gotpiece = true;
+                                } else {
+                                    gotpiece = false;
+                                }
+                            }
+        
+                            if (gotpiece) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        } // When the targeted piece ycoordinate is bigger than selected Piece yCoordinate
+                        else if (y > selectedPiece.yCoordinate) {
+                            // Check if there are any pieces
+                            for (int i = selectedPiece.yCoordinate; i < y; i++) {
+                                PointPiece checkPiece = getPieceAtPosition(x, i);
+                                if (checkPiece == null) {
+                                    gotpiece = true;
+                                } else {
+                                    gotpiece = false;
+                                }
+                            }
+        
+                            if (gotpiece) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+                    } else if (ydistance == 0) {
+                        // When the targeted piece xcoordinate is smaller than selected Piece xCoordinate
+                        if (x < selectedPiece.xCoordinate) {
+                            // Check if there are any pieces
+                            for (int i = x; i < selectedPiece.xCoordinate; i++) {
+                                PointPiece checkPiece = getPieceAtPosition(i, y);
+                                if (checkPiece == null) {
+                                    gotpiece = true;
+                                } else {
+                                    gotpiece = false;
+                                }
+                            }
+        
+                            if (gotpiece) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        } // When the targeted piece xcoordinate is bigger than selected Piece xCoordinate
+                        else if (x > selectedPiece.xCoordinate) {
+                            // Check if there are any pieces
+                            for (int i = selectedPiece.xCoordinate; i < x; i++) {
+                                PointPiece checkPiece = getPieceAtPosition(i, y);
+                                if (checkPiece == null) {
+                                    gotpiece = true;
+                                } else {
+                                    gotpiece = false;
+                                }
+                            }
+        
+                            if (gotpiece) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+                    }
                 }
                 else {
                     return false;
@@ -246,8 +440,6 @@ public class ChessController {
                 } else {
                     return;
                 }
-
-                
             }
         }
     }
