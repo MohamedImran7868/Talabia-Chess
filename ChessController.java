@@ -29,41 +29,52 @@ public class ChessController {
         return currentPlayer;
     }
 
+    public void changeturntotext() {
+        String player = null;
+        if (currentPlayer == 0) {
+            player = "YELLOW";
+        } else {
+            player = "BLUE";
+        }
+
+        view.turn.setText("Turn: " + player);
+    }
+
     public void initializePieces() {
         File piecesFolder = new File("pieces"); // Create a File object for the "pieces" folder
         
         // Add pieces at initial places
         // blue pieces
-        piecesMap.put("blue_point0", new PointPiece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 0, 0));
-        piecesMap.put("blue_point1", new PointPiece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 1, 0));
-        piecesMap.put("blue_point2", new PointPiece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 2, 0));
-        piecesMap.put("blue_point3", new PointPiece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 3, 0));
-        piecesMap.put("blue_point4", new PointPiece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 4, 0));
-        piecesMap.put("blue_point5", new PointPiece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 5, 0));
-        piecesMap.put("blue_point6", new PointPiece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 6, 0));
-        piecesMap.put("blue_plus0", new PointPiece("blue_plus", new File(piecesFolder, "blue_PlusPiece.png"), 0, 0, 0));
-        piecesMap.put("blue_plus1", new PointPiece("blue_plus", new File(piecesFolder, "blue_PlusPiece.png"), 0, 6, 0));
-        piecesMap.put("blue_hourglass0", new PointPiece("blue_hourglass", new File(piecesFolder, "blue_HourglassPiece.png"), 0, 1, 0));
-        piecesMap.put("blue_hourglass1", new PointPiece("blue_hourglass", new File(piecesFolder, "blue_HourglassPiece.png"), 0, 5, 0));
-        piecesMap.put("blue_time0", new PointPiece("blue_time", new File(piecesFolder, "blue_TimePiece.png"), 0, 2, 0));
-        piecesMap.put("blue_time1", new PointPiece("blue_time", new File(piecesFolder, "blue_TimePiece.png"), 0, 4, 0));
-        piecesMap.put("blue_sun", new PointPiece("blue_sun", new File(piecesFolder, "blue_SunPiece.png"), 0, 3, 0));
+        piecesMap.put("blue_point0", new PointPiece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 0, 1, "alive"));
+        piecesMap.put("blue_point1", new PointPiece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 1, 1, "alive"));
+        piecesMap.put("blue_point2", new PointPiece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 2, 1, "alive"));
+        piecesMap.put("blue_point3", new PointPiece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 3, 1, "alive"));
+        piecesMap.put("blue_point4", new PointPiece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 4, 1, "alive"));
+        piecesMap.put("blue_point5", new PointPiece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 5, 1, "alive"));
+        piecesMap.put("blue_point6", new PointPiece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 6, 1, "alive"));
+        piecesMap.put("blue_plus0", new PointPiece("blue_plus", new File(piecesFolder, "blue_PlusPiece.png"), 0, 0, 1, "alive"));
+        piecesMap.put("blue_plus1", new PointPiece("blue_plus", new File(piecesFolder, "blue_PlusPiece.png"), 0, 6, 1, "alive"));
+        piecesMap.put("blue_hourglass0", new PointPiece("blue_hourglass", new File(piecesFolder, "blue_HourglassPiece.png"), 0, 1, 1, "alive"));
+        piecesMap.put("blue_hourglass1", new PointPiece("blue_hourglass", new File(piecesFolder, "blue_HourglassPiece.png"), 0, 5, 1, "alive"));
+        piecesMap.put("blue_time0", new PointPiece("blue_time", new File(piecesFolder, "blue_TimePiece.png"), 0, 2, 1, "alive"));
+        piecesMap.put("blue_time1", new PointPiece("blue_time", new File(piecesFolder, "blue_TimePiece.png"), 0, 4, 1, "alive"));
+        piecesMap.put("blue_sun", new PointPiece("blue_sun", new File(piecesFolder, "blue_SunPiece.png"), 0, 3, 1, "alive"));
         
         // yellow pieces
-        piecesMap.put("yellow_point0", new PointPiece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 0, 1));
-        piecesMap.put("yellow_point1", new PointPiece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 1, 1));
-        piecesMap.put("yellow_point2", new PointPiece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 2, 1));
-        piecesMap.put("yellow_point3", new PointPiece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 3, 1));
-        piecesMap.put("yellow_point4", new PointPiece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 4, 1));
-        piecesMap.put("yellow_point5", new PointPiece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 5, 1));
-        piecesMap.put("yellow_point6", new PointPiece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 6, 1));
-        piecesMap.put("yellow_plus0", new PointPiece("yellow_plus", new File(piecesFolder, "yellow_PlusPiece.png"), 5, 0, 1));
-        piecesMap.put("yellow_plus1", new PointPiece("yellow_plus", new File(piecesFolder, "yellow_PlusPiece.png"), 5, 6, 1));
-        piecesMap.put("yellow_hourglass0", new PointPiece("yellow_hourglass", new File(piecesFolder, "yellow_Hourglasspiece.png"), 5, 1, 1));
-        piecesMap.put("yellow_hourglass1", new PointPiece("yellow_hourglass", new File(piecesFolder, "yellow_Hourglasspiece.png"), 5, 5, 1));
-        piecesMap.put("yellow_time0", new PointPiece("yellow_time", new File(piecesFolder, "yellow_TimePiece.png"), 5, 2, 1));
-        piecesMap.put("yellow_time1", new PointPiece("yellow_time", new File(piecesFolder, "yellow_TimePiece.png"), 5, 4, 1));
-        piecesMap.put("yellow_sun", new PointPiece("yellow_sun", new File(piecesFolder, "yellow_SunPiece.png"), 5, 3, 1)); 
+        piecesMap.put("yellow_point0", new PointPiece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 0, 0, "alive"));
+        piecesMap.put("yellow_point1", new PointPiece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 1, 0, "alive"));
+        piecesMap.put("yellow_point2", new PointPiece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 2, 0, "alive"));
+        piecesMap.put("yellow_point3", new PointPiece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 3, 0, "alive"));
+        piecesMap.put("yellow_point4", new PointPiece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 4, 0, "alive"));
+        piecesMap.put("yellow_point5", new PointPiece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 5, 0, "alive"));
+        piecesMap.put("yellow_point6", new PointPiece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 6, 0, "alive"));
+        piecesMap.put("yellow_plus0", new PointPiece("yellow_plus", new File(piecesFolder, "yellow_PlusPiece.png"), 5, 0, 0, "alive"));
+        piecesMap.put("yellow_plus1", new PointPiece("yellow_plus", new File(piecesFolder, "yellow_PlusPiece.png"), 5, 6, 0, "alive"));
+        piecesMap.put("yellow_hourglass0", new PointPiece("yellow_hourglass", new File(piecesFolder, "yellow_Hourglasspiece.png"), 5, 1, 0, "alive"));
+        piecesMap.put("yellow_hourglass1", new PointPiece("yellow_hourglass", new File(piecesFolder, "yellow_Hourglasspiece.png"), 5, 5, 0, "alive"));
+        piecesMap.put("yellow_time0", new PointPiece("yellow_time", new File(piecesFolder, "yellow_TimePiece.png"), 5, 2, 0, "alive"));
+        piecesMap.put("yellow_time1", new PointPiece("yellow_time", new File(piecesFolder, "yellow_TimePiece.png"), 5, 4, 0, "alive"));
+        piecesMap.put("yellow_sun", new PointPiece("yellow_sun", new File(piecesFolder, "yellow_SunPiece.png"), 5, 3, 0, "alive")); 
 
     }
 
@@ -96,7 +107,7 @@ public class ChessController {
 
     private PointPiece getPieceAtPosition(int xCoordinate, int yCoordinate) {
         for (PointPiece piece : piecesMap.values()) {
-            if (piece.xCoordinate == xCoordinate && piece.yCoordinate == yCoordinate) {
+            if (piece.xCoordinate == xCoordinate && piece.yCoordinate == yCoordinate && piece.status == "alive") {
                 return piece;
             }
         }
@@ -143,16 +154,14 @@ public class ChessController {
                 {
                     if (xdistance == 2) {
                         // Check if there are any pieces
-                        for (int i = selectedPiece.xCoordinate; i < x; i++) {
+                        for (int i = selectedPiece.xCoordinate + 1; i < x; i++) {
                             PointPiece checkPiece = getPieceAtPosition(i, y);
-                            if (checkPiece == null) {
+                            if (checkPiece != null) {
                                 gotpiece = true;
-                            } else {
-                                gotpiece = false;
                             }
                         }
     
-                        if (gotpiece) {
+                        if (!gotpiece) {
                             return true;
                         } else {
                             return false;
@@ -173,14 +182,12 @@ public class ChessController {
                         // Check if there are any pieces
                         for (int i = x; i < selectedPiece.xCoordinate; i++) {
                             PointPiece checkPiece = getPieceAtPosition(i, y);
-                            if (checkPiece == null) {
+                            if (checkPiece != null) {
                                 gotpiece = true;
-                            } else {
-                                gotpiece = false;
                             }
                         }
     
-                        if (gotpiece) {
+                        if (!gotpiece) {
                             return true;
                         } else {
                             return false;
@@ -215,17 +222,20 @@ public class ChessController {
                             // Check if there are any pieces
                             for (int i = x; i < selectedPiece.xCoordinate; i++) {
                                 for (int j = y; j < selectedPiece.yCoordinate; j++) {
-                                    PointPiece checkPiece = getPieceAtPosition(i, j);
-                                    if (checkPiece == null) {
-                                        gotpiece = true;
-                                    } else {
-                                        gotpiece = false;
+                                    int idistance = Math.abs(i - selectedPiece.xCoordinate);
+                                    int jdistance = Math.abs(j - selectedPiece.yCoordinate);
+
+                                    if (idistance == jdistance) {
+                                        PointPiece checkPiece = getPieceAtPosition(i, j);
+                                        if (checkPiece != null) {
+                                            gotpiece = true;
+                                        }
                                     }
                                 }
                                 
                             }
         
-                            if (gotpiece) {
+                            if (!gotpiece) {
                                 return true;
                             } else {
                                 return false;
@@ -235,17 +245,20 @@ public class ChessController {
                             // Check if there are any pieces
                             for (int i = selectedPiece.xCoordinate; i < x; i++) {
                                 for (int j = selectedPiece.yCoordinate; j < y; j++) {
-                                    PointPiece checkPiece = getPieceAtPosition(i, j);
-                                    if (checkPiece == null) {
-                                        gotpiece = true;
-                                    } else {
-                                        gotpiece = false;
+                                    int idistance = Math.abs(i - selectedPiece.xCoordinate);
+                                    int jdistance = Math.abs(j - selectedPiece.yCoordinate);
+
+                                    if (idistance == jdistance) {
+                                        PointPiece checkPiece = getPieceAtPosition(i, j);
+                                        if (checkPiece != null) {
+                                            gotpiece = true;
+                                        }
                                     }
                                 }
                                 
                             }
         
-                            if (gotpiece) {
+                            if (!gotpiece) {
                                 return true;
                             } else {
                                 return false;
@@ -255,17 +268,20 @@ public class ChessController {
                             // Check if there are any pieces
                             for (int i = x; i < selectedPiece.xCoordinate; i++) {
                                 for (int j = selectedPiece.yCoordinate; j < y; j++) {
-                                    PointPiece checkPiece = getPieceAtPosition(i, j);
-                                    if (checkPiece == null) {
-                                        gotpiece = true;
-                                    } else {
-                                        gotpiece = false;
+                                    int idistance = Math.abs(i - selectedPiece.xCoordinate);
+                                    int jdistance = Math.abs(j - selectedPiece.yCoordinate);
+
+                                    if (idistance == jdistance) {
+                                        PointPiece checkPiece = getPieceAtPosition(i, j);
+                                        if (checkPiece != null) {
+                                            gotpiece = true;
+                                        }
                                     }
                                 }
                                 
                             }
         
-                            if (gotpiece) {
+                            if (!gotpiece) {
                                 return true;
                             } else {
                                 return false;
@@ -275,17 +291,19 @@ public class ChessController {
                             // Check if there are any pieces
                             for (int i = selectedPiece.xCoordinate; i < x; i++) {
                                 for (int j = y; j < selectedPiece.yCoordinate; j++) {
-                                    PointPiece checkPiece = getPieceAtPosition(i, j);
-                                    if (checkPiece == null) {
-                                        gotpiece = true;
-                                    } else {
-                                        gotpiece = false;
+                                    int idistance = Math.abs(i - selectedPiece.xCoordinate);
+                                    int jdistance = Math.abs(j - selectedPiece.yCoordinate);
+
+                                    if (idistance == jdistance) {
+                                        PointPiece checkPiece = getPieceAtPosition(i, j);
+                                        if (checkPiece != null) {
+                                            gotpiece = true;
+                                        }
                                     }
                                 }
-                                
                             }
         
-                            if (gotpiece) {
+                            if (!gotpiece) {
                                 return true;
                             } else {
                                 return false;
@@ -309,15 +327,17 @@ public class ChessController {
                         if (y < selectedPiece.yCoordinate) {
                             // Check if there are any pieces
                             for (int i = y; i < selectedPiece.yCoordinate; i++) {
-                                PointPiece checkPiece = getPieceAtPosition(x, i);
-                                if (checkPiece == null) {
-                                    gotpiece = true;
-                                } else {
-                                    gotpiece = false;
+                                int idistance = Math.abs(i - selectedPiece.yCoordinate);
+
+                                if (idistance == 0) {
+                                    PointPiece checkPiece = getPieceAtPosition(x, i);
+                                    if (checkPiece != null) {
+                                        gotpiece = true;
+                                    }
                                 }
                             }
         
-                            if (gotpiece) {
+                            if (!gotpiece) {
                                 return true;
                             } else {
                                 return false;
@@ -325,16 +345,18 @@ public class ChessController {
                         } // When the targeted piece ycoordinate is bigger than selected Piece yCoordinate
                         else if (y > selectedPiece.yCoordinate) {
                             // Check if there are any pieces
-                            for (int i = selectedPiece.yCoordinate; i < y; i++) {
-                                PointPiece checkPiece = getPieceAtPosition(x, i);
-                                if (checkPiece == null) {
-                                    gotpiece = true;
-                                } else {
-                                    gotpiece = false;
+                            for (int i = selectedPiece.yCoordinate + 1; i < y; i++) {
+                                int idistance = Math.abs(i - selectedPiece.yCoordinate);
+
+                                if (idistance == 0) {
+                                    PointPiece checkPiece = getPieceAtPosition(x, i);
+                                    if (checkPiece != null) {
+                                        gotpiece = true;
+                                    }
                                 }
                             }
         
-                            if (gotpiece) {
+                            if (!gotpiece) {
                                 return true;
                             } else {
                                 return false;
@@ -345,15 +367,17 @@ public class ChessController {
                         if (x < selectedPiece.xCoordinate) {
                             // Check if there are any pieces
                             for (int i = x; i < selectedPiece.xCoordinate; i++) {
-                                PointPiece checkPiece = getPieceAtPosition(i, y);
-                                if (checkPiece == null) {
-                                    gotpiece = true;
-                                } else {
-                                    gotpiece = false;
+                                int idistance = Math.abs(i - selectedPiece.xCoordinate);
+
+                                if (idistance == 0) {
+                                    PointPiece checkPiece = getPieceAtPosition(i, y);
+                                    if (checkPiece != null) {
+                                        gotpiece = true;
+                                    }
                                 }
                             }
         
-                            if (gotpiece) {
+                            if (!gotpiece) {
                                 return true;
                             } else {
                                 return false;
@@ -361,16 +385,18 @@ public class ChessController {
                         } // When the targeted piece xcoordinate is bigger than selected Piece xCoordinate
                         else if (x > selectedPiece.xCoordinate) {
                             // Check if there are any pieces
-                            for (int i = selectedPiece.xCoordinate; i < x; i++) {
-                                PointPiece checkPiece = getPieceAtPosition(i, y);
-                                if (checkPiece == null) {
-                                    gotpiece = true;
-                                } else {
-                                    gotpiece = false;
+                            for (int i = selectedPiece.xCoordinate + 1; i < x; i++) {
+                                int idistance = Math.abs(i - selectedPiece.xCoordinate);
+
+                                if (idistance == 0) {
+                                    PointPiece checkPiece = getPieceAtPosition(i, y);
+                                    if (checkPiece != null) {
+                                        gotpiece = true;
+                                    }
                                 }
                             }
         
-                            if (gotpiece) {
+                            if (!gotpiece) {
                                 return true;
                             } else {
                                 return false;
@@ -385,7 +411,7 @@ public class ChessController {
             case "blue_sun":
             case "yellow_sun":
                 // Sun piece
-                if ((Math.abs(xdistance) == 1 && ydistance ==0) || (Math.abs(ydistance) == 1 && xdistance ==0) || (Math.abs(ydistance) == 1 && Math.abs(xdistance) == 1))
+                if ((Math.abs(xdistance) == 1 && ydistance ==0) || (Math.abs(ydistance) == 1 && xdistance == 0) || (Math.abs(ydistance) == 1 && Math.abs(xdistance) == 1))
                 {
                     return true;
                 }
@@ -394,6 +420,18 @@ public class ChessController {
                 }
             default:
                 return false;
+        }
+    }
+
+    private void capturepiece(PointPiece clickedPiece, JButton clickedButton) {
+
+        PointPiece targetPiece = getPieceAtPosition(clickedButton);
+
+        if (targetPiece != null && clickedPiece.getPlayer() != currentPlayer ) {
+            // Capture the piece
+            piecesMap.remove(targetPiece.getName());
+            System.out.println("Captured: " + targetPiece.getName());
+            targetPiece.status = "dead";
         }
     }
 
@@ -413,21 +451,25 @@ public class ChessController {
             // Check if the clicked button has a piece
             PointPiece clickedPiece = getPieceAtPosition(x, y);
 
-            if (clickedPiece != null) {
+            //  
+            if (clickedPiece != null && clickedPiece.getPlayer() == currentPlayer && selectedButton == null) {
                 // If a piece is clicked, store it as the selected piece
                 selectedButton = clickedButton;
+                System.out.println("yes");
             } else if (selectedButton != null) {
-                // If a button without a piece is clicked and a piece is selected,
-                // move the piece to the clicked button
                 selectedPiece = getPieceAtPosition(selectedButton);
 
-                if (ismovevalid(x, y)) {
+                if (ismovevalid(x, y) ) {
+
+                    capturepiece(clickedPiece, clickedButton);
+
                     // Update the piecesMap with the new coordinates
                     selectedPiece.xCoordinate = x;
                     selectedPiece.yCoordinate = y;
 
                     System.out.println("NewX: " + selectedPiece.xCoordinate);
                     System.out.println("NewY: " + selectedPiece.yCoordinate);
+                    System.out.println("Player: " + currentPlayer);
 
                     // Update the view with the new icon for the clicked button
                     view.setIconForButton(clickedButton, selectedPiece.getImagePath(), selectedPiece.getName());
@@ -437,11 +479,16 @@ public class ChessController {
 
                     // Clear the selected button
                     selectedButton = null;
+
+                    switchPlayer();
+                    changeturntotext();
                 } else {
                     return;
                 }
             }
+           
         }
     }
+
 }
 
