@@ -8,6 +8,8 @@ import java.awt.image.BufferedImage;
 public class GUI {
     private static JFrame frame = new JFrame("Talabia Chess");
     private ChessController controller;
+    public JPanel board = new JPanel();
+    public JLabel turn = new JLabel("Turn: YELLOW");
 
     GUI() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -18,7 +20,6 @@ public class GUI {
         controller = new ChessController(this);
 
         JPanel tab = new JPanel();
-        JPanel board = new JPanel();
         JButton option = new JButton("Option");
         JPanel optionPanel = new JPanel(new FlowLayout());
 
@@ -31,6 +32,7 @@ public class GUI {
         controller.initializeButtons(board);
 
         optionPanel.add(option);
+        optionPanel.add(turn, BorderLayout.EAST);
         tab.add(optionPanel, BorderLayout.WEST);
 
         frame.add(tab, BorderLayout.NORTH);
