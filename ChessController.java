@@ -2,7 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +18,7 @@ public class ChessController {
     public static JButton[][] buttonsall = new JButton[column][row]; // JButton for each tile (42)
     private static Map<String, PointPiece> piecesMap = new HashMap<>(); // Map to store information about each piece
     private JButton selectedButton = null;
+    private int turn = 0;
 
     public ChessController(GUI view) {
         this.view = view;
@@ -83,7 +87,7 @@ public class ChessController {
             String key = entry.getKey();
             PointPiece value = entry.getValue();
             System.out.println("Key: " + key + ", Piece: " + value.getName() +
-                    ", X: " + value.getX() + ", Y: " + value.getY());
+                    ", X: " + value.getX() + ", Y: " + value.getY() + ", Status: " + value.getStatus());
         }
     }
 
@@ -130,6 +134,59 @@ public class ChessController {
         }
 
         return getPieceAtPosition(x, y);
+    }
+
+    private void swapPiece() {
+        File piecesFolder = new File("pieces");
+        
+        for (PointPiece piece : piecesMap.values()) {
+            int x = 0;
+            int y = 0;
+
+            if (piece.status.equals("alive") && piece.name.equals("blue_plus")) {
+                piece.setName("blue_time");
+                piece.setImagePath(new File(piecesFolder, "blue_TimePiece.png"));
+
+                x = piece.getX();
+                y = piece.getY();
+
+                view.setIconForButton(buttonsall[x][y], piece.getImagePath(), piece.getName());
+                
+            }
+
+            else if (piece.status.equals("alive") && piece.name.equals("blue_time")) {
+                piece.setName("blue_plus");
+                piece.setImagePath(new File(piecesFolder, "blue_PlusPiece.png"));
+
+                x = piece.getX();
+                y = piece.getY();
+
+                view.setIconForButton(buttonsall[x][y], piece.getImagePath(), piece.getName());
+                
+            }
+
+            else if (piece.status.equals("alive") && piece.name.equals("yellow_plus")) {
+                piece.setName("yellow_time");
+                piece.setImagePath(new File(piecesFolder, "yellow_TimePiece.png"));
+
+                x = piece.getX();
+                y = piece.getY();
+
+                view.setIconForButton(buttonsall[x][y], piece.getImagePath(), piece.getName());
+                
+            }
+
+            else if (piece.status.equals("alive") && piece.name.equals("yellow_time")) {
+                piece.setName("yellow_plus");
+                piece.setImagePath(new File(piecesFolder, "yellow_PlusPiece.png"));
+
+                x = piece.getX();
+                y = piece.getY();
+
+                view.setIconForButton(buttonsall[x][y], piece.getImagePath(), piece.getName());
+                
+            }
+        }
     }
 
     // Movement Logic
@@ -243,7 +300,7 @@ public class ChessController {
                         } // When the targeted piece coordinate is bigger than selected Piece Coordinate
                         else if (x > selectedPiece.xCoordinate && y > selectedPiece.yCoordinate) {
                             // Check if there are any pieces
-                            for (int i = selectedPiece.xCoordinate; i < x; i++) {
+                            for (int i = selectedPiece.xCoordinate + 1; i < x; i++) {
                                 for (int j = selectedPiece.yCoordinate; j < y; j++) {
                                     int idistance = Math.abs(i - selectedPiece.xCoordinate);
                                     int jdistance = Math.abs(j - selectedPiece.yCoordinate);
@@ -427,11 +484,41 @@ public class ChessController {
 
         PointPiece targetPiece = getPieceAtPosition(clickedButton);
 
-        if (targetPiece != null && clickedPiece.getPlayer() != currentPlayer ) {
+        if (targetPiece != null ) {
             // Capture the piece
-            piecesMap.remove(targetPiece.getName());
-            System.out.println("Captured: " + targetPiece.getName());
-            targetPiece.status = "dead";
+            String name = targetPiece.getName();
+            if (name == "blue_sun" || name == "yellow_sun") {
+                System.out.println("WINCaptured: " + name);
+                targetPiece.status = "dead";
+                view.gameover();
+
+            } else {
+                System.out.println("Captured: " + name);
+                targetPiece.status = "dead";
+            }
+        }
+    }
+
+    public void save(String filePath) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write("Current Player: " + currentPlayer);
+            for (Map.Entry<String, PointPiece> entry : piecesMap.entrySet()) {
+                String key = entry.getKey();
+                PointPiece value = entry.getValue();
+                writer.write("Key: " + key + ", Piece: " + value.getName() +
+                        ", X: " + value.getX() + ", Y: " + value.getY() + ", Status: " + value.getStatus() +"\n");
+            }
+            System.out.println("Pieces information saved to file: " + filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public class saveclicklistener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
         }
     }
 
@@ -447,12 +534,11 @@ public class ChessController {
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton clickedButton = buttonsall[x][y];
-
             // Check if the clicked button has a piece
             PointPiece clickedPiece = getPieceAtPosition(x, y);
 
             //  
-            if (clickedPiece != null && clickedPiece.getPlayer() == currentPlayer && selectedButton == null) {
+            if (clickedPiece != null && clickedPiece.getPlayer() == currentPlayer) {
                 // If a piece is clicked, store it as the selected piece
                 selectedButton = clickedButton;
                 System.out.println("yes");
@@ -480,15 +566,22 @@ public class ChessController {
                     // Clear the selected button
                     selectedButton = null;
 
+                    if (turn == 3){
+                        // for swap piece
+                        swapPiece();
+                        turn = 0;
+                    } else {
+                        turn++;
+                    }
+
+                    save("save.txt");
                     switchPlayer();
                     changeturntotext();
                 } else {
                     return;
                 }
             }
-           
         }
     }
-
 }
 
