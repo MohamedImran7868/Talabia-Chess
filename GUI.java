@@ -20,18 +20,18 @@ public class GUI {
         controller = new ChessController(this);
 
         JPanel tab = new JPanel();
-        JButton option = new JButton("Option");
-        JPanel optionPanel = new JPanel(new FlowLayout());
+        JButton save = new JButton("Save game");
+        JPanel optionPanel = new JPanel(new GridLayout(1, 3));
 
         tab.setLayout(new BorderLayout());
         tab.setPreferredSize(new Dimension(600, 20));
-        option.setPreferredSize(new Dimension(100, 15));
+        save.setPreferredSize(new Dimension(100, 15));
         board.setLayout(new GridLayout(6, 7));
 
         controller.initializePieces();
         controller.initializeButtons(board);
 
-        optionPanel.add(option);
+        optionPanel.add(save);
         optionPanel.add(turn, BorderLayout.EAST);
         tab.add(optionPanel, BorderLayout.WEST);
 
@@ -60,5 +60,9 @@ public class GUI {
 
     public ChessController getController() {
         return controller;
+    }
+
+    public void gameover() {
+        JOptionPane.showMessageDialog(frame, "GAME ENDS", "GAME OVER!!!", JOptionPane.INFORMATION_MESSAGE);
     }
 }
