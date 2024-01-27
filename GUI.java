@@ -178,6 +178,16 @@ public class GUI {
     }
 
     public void gameover() {
-        JOptionPane.showMessageDialog(frame, "GAME ENDS", "GAME OVER!!!", JOptionPane.INFORMATION_MESSAGE);
+        Object[] options = {"OK", "Restart"};
+    
+        int option = JOptionPane.showOptionDialog(frame,"GAME ENDS","GAME OVER!!!", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[1]);
+        //JOptionPane.showMessageDialog(frame, "GAME ENDS", "GAME OVER!!!", JOptionPane.INFORMATION_MESSAGE);
+        if (option == JOptionPane.OK_OPTION) {
+            System.exit(0);
+            
+        } else if (option == JOptionPane.YES_OPTION) {
+            new Start(false).actionPerformed(null);
+
+        }
     }
 }
