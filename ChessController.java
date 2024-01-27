@@ -2,8 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
@@ -44,8 +46,17 @@ public class ChessController {
         view.turn.setText("Turn: " + player);
     }
 
+    public void printPiecesMap() {
+        for (Map.Entry<String, PointPiece> entry : piecesMap.entrySet()) {
+            String key = entry.getKey();
+            PointPiece value = entry.getValue();
+            System.out.println("Key: " + key + ", Piece: " + value.getName() + ", Path: " + value.getImagePath() +
+                    ", X: " + value.getX() + ", Y: " + value.getY() + ", Status: " + value.getStatus());
+        }
+    }
+
     public void initializePieces() {
-        File piecesFolder = new File("pieces"); // Create a File object for the "pieces" folder
+        File piecesFolder = new File("Pieces"); // Create a File object for the "pieces" folder
         
         // Add pieces at initial places
         // blue pieces
@@ -81,16 +92,7 @@ public class ChessController {
         piecesMap.put("yellow_sun", new PointPiece("yellow_sun", new File(piecesFolder, "yellow_SunPiece.png"), 5, 3, 0, "alive")); 
 
     }
-
-    public void printPiecesMap() {
-        for (Map.Entry<String, PointPiece> entry : piecesMap.entrySet()) {
-            String key = entry.getKey();
-            PointPiece value = entry.getValue();
-            System.out.println("Key: " + key + ", Piece: " + value.getName() +
-                    ", X: " + value.getX() + ", Y: " + value.getY() + ", Status: " + value.getStatus());
-        }
-    }
-
+    
     public void initializeButtons(JPanel panel) {
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 7; j++) {
@@ -111,7 +113,7 @@ public class ChessController {
 
     private PointPiece getPieceAtPosition(int xCoordinate, int yCoordinate) {
         for (PointPiece piece : piecesMap.values()) {
-            if (piece.xCoordinate == xCoordinate && piece.yCoordinate == yCoordinate && piece.status == "alive") {
+            if (piece.xCoordinate == xCoordinate && piece.yCoordinate == yCoordinate && "alive".equals(piece.status)) {
                 return piece;
             }
         }
@@ -135,7 +137,7 @@ public class ChessController {
 
         return getPieceAtPosition(x, y);
     }
-
+    
     private void swapPiece() {
         File piecesFolder = new File("pieces");
         
@@ -501,12 +503,14 @@ public class ChessController {
 
     public void save(String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write("Current Player: " + currentPlayer);
+            writer.write("Current Player: " + currentPlayer + "\n");
             for (Map.Entry<String, PointPiece> entry : piecesMap.entrySet()) {
                 String key = entry.getKey();
                 PointPiece value = entry.getValue();
-                writer.write("Key: " + key + ", Piece: " + value.getName() +
-                        ", X: " + value.getX() + ", Y: " + value.getY() + ", Status: " + value.getStatus() +"\n");
+                String fileName = value.getImagePath().getName();
+
+                writer.write("Key: " + key + ", Piece: " + value.getName() +  ", Path: " + fileName +
+                        ", X: " + value.getX() + ", Y: " + value.getY() + ", Player: " + value.getPlayer() + ", Status: " + value.getStatus() +"\n");
             }
             System.out.println("Pieces information saved to file: " + filePath);
         } catch (IOException e) {
@@ -514,14 +518,42 @@ public class ChessController {
         }
     }
 
-    public class saveclicklistener implements ActionListener {
+    public void load(String filePath) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(", ");
+                if (parts.length >= 7) {
+                    String key = parts[0].replace("Key: ", "");
+                    String pieceName = parts[1].replace("Piece: ", "");
+                    String imagePath = parts[2].replace("Path: ", "");
+                    int x = Integer.parseInt(parts[3].replace("X: ", ""));
+                    int y = Integer.parseInt(parts[4].replace("Y: ", ""));
+                    int player = Integer.parseInt(parts[5].replace("Player: ", ""));
+                    String status = parts[6].replace("Status: ", "");
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
 
+                    // Create a new File object using only the file name (child)
+                    File path = new File("Pieces", imagePath);
+
+                    // Create a new PointPiece and add it to the piecesMap
+                    PointPiece piece = new PointPiece(pieceName, path, x, y, player, status);
+                    piecesMap.put(key, piece);
+                }  else if (parts.length == 1 && parts[0].startsWith("Current Player: ")) {
+                    // Extract and set the currentPlayer value
+                    int cp = Integer.parseInt(parts[0].replace("Current Player: ", ""));
+
+                    currentPlayer = cp;
+                }   else {
+                    System.err.println("Invalid line format: " + line);
+                }
+            }
+            System.out.println("Pieces information loaded from file: " + filePath);
+        } catch (IOException | NumberFormatException e) {
+            e.printStackTrace();
         }
     }
-
+    
     public class ButtonClickListener implements ActionListener {
         private int x; 
         private int y; 
@@ -574,7 +606,7 @@ public class ChessController {
                         turn++;
                     }
 
-                    save("save.txt");
+                    save("autosave.txt");  // will autosave after every move
                     switchPlayer();
                     changeturntotext();
                 } else {
@@ -584,4 +616,3 @@ public class ChessController {
         }
     }
 }
-
