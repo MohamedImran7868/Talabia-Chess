@@ -267,7 +267,7 @@ public class ChessController {
                 if ((xdistance == -1 || xdistance == -2) && ydistance == 0) {
                     if (xdistance == -2) {
                         // Check if there are any pieces
-                        for (int i = x; i < selectedPiece.xCoordinate; i++) {
+                        for (int i = x + 1; i < selectedPiece.xCoordinate; i++) {
                             PointPiece checkPiece = getPieceAtPosition(i, y);
                             if (checkPiece != null) {
                                 gotpiece = true;
