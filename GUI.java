@@ -10,8 +10,8 @@ import java.awt.image.BufferedImage;
 public class GUI {
     private static JFrame frame = new JFrame("Talabia Chess");
     private ChessController controller;
-    public JPanel board = new JPanel();
-    public JLabel turn = new JLabel("Turn: YELLOW");
+    private JPanel board = new JPanel();
+    private JLabel turn = new JLabel("Turn: YELLOW");
     private JPanel p;
 
     GUI() {
@@ -101,7 +101,6 @@ public class GUI {
                 controller.initializePieces();
             }
             controller.initializeButtons(board);
-            controller.printPiecesMap();
             controller.changeturntotext();
 
             optionPanel.add(save);
@@ -197,12 +196,12 @@ public class GUI {
             }
         }
     }
-    
-    public ChessController getController() {
-        return controller;
-    }
 
     public void gameover() {
-        JOptionPane.showMessageDialog(frame, "GAME ENDS. " + controller.winner() + " WINS.", "GAME OVER!!!", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(frame, "GAME ENDS. " + controller.getplayer() + " WINS.", "GAME OVER!!!", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public void setText() {
+        turn.setText("Turn: " + controller.getplayer());
     }
 }
