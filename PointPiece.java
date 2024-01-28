@@ -1,12 +1,12 @@
 import java.io.File;
 
 public class PointPiece {
-    public String name;
-    public File imagePath;
-    public int xCoordinate;
-    public int yCoordinate;
-    public int player;
-    public String status;
+    private String name;
+    private File imagePath;
+    private int xCoordinate;
+    private int yCoordinate;
+    private int player;
+    private String status;
 
     public PointPiece(String name, File file, int x, int y, int player, String status) {
         this.name = name;
@@ -17,6 +17,7 @@ public class PointPiece {
         this.status = status;
     }
 
+    //Getter Method
     public String getName() {
         return name;
     }
@@ -41,11 +42,24 @@ public class PointPiece {
         return status;
     }
 
+    //Setter Method
     public void setName(String name) {
         this.name = name;
     }
 
     public void setImagePath(File imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public void setX(int xCoordinate) {
+        this.xCoordinate = xCoordinate;
+    }
+
+    public void setY(int yCoordinate) {
+        this.yCoordinate = yCoordinate;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
