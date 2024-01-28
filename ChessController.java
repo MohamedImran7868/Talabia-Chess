@@ -15,9 +15,9 @@ public class ChessController {
     private GUI view;
     private PointPiece selectedPiece;
     private int currentPlayer;
-    public static int row = 7;
-    public static int column = 6;
-    public static JButton[][] buttonsall = new JButton[column][row]; // JButton for each tile (42)
+    private static int row = 7;
+    private static int column = 6;
+    private static JButton[][] buttonsall = new JButton[column][row]; // JButton for each tile (42)
     private static Map<String, PointPiece> piecesMap = new HashMap<>(); // Map to store information about each piece
     private JButton selectedButton = null;
     private int turn = 0;
@@ -29,12 +29,8 @@ public class ChessController {
         this.currentPlayer = 0;
     }
 
-    public void switchPlayer() {
+    private void switchPlayer() {
         currentPlayer = (currentPlayer + 1) % 2; // Toggle between 0 and 1 (player 1 and player 2)
-    }
-
-    public int getCurrentPlayer() {
-        return currentPlayer;
     }
 
     public void changeturntotext() {
@@ -43,21 +39,10 @@ public class ChessController {
         } else {
             player = "BLUE";
         }
-
-        view.turn.setText("Turn: " + player);
     }
 
-    public String winner() {
+    public String getplayer() {
         return player;
-    }
-
-    public void printPiecesMap() {
-        for (Map.Entry<String, PointPiece> entry : piecesMap.entrySet()) {
-            String key = entry.getKey();
-            PointPiece value = entry.getValue();
-            System.out.println("Key: " + key + ", Piece: " + value.getName() + ", Path: " + value.getImagePath() +
-                    ", X: " + value.getX() + ", Y: " + value.getY() + ", Status: " + value.getStatus());
-        }
     }
 
     public void initializePieces() {
@@ -147,7 +132,7 @@ public class ChessController {
 
     private PointPiece getPieceAtPosition(int xCoordinate, int yCoordinate) {
         for (PointPiece piece : piecesMap.values()) {
-            if (piece.xCoordinate == xCoordinate && piece.yCoordinate == yCoordinate && "alive".equals(piece.status)) {
+            if (piece.getX() == xCoordinate && piece.getY() == yCoordinate && "alive".equals(piece.getStatus())) {
                 return piece;
             }
         }
@@ -176,50 +161,40 @@ public class ChessController {
         File piecesFolder = new File("pieces");
 
         for (PointPiece piece : piecesMap.values()) {
-            int x = 0;
-            int y = 0;
+            int x = piece.getX();
+            int y = piece.getY();
+            String name = piece.getName();
+            String status = piece.getStatus();
 
-            if (piece.status.equals("alive") && piece.name.equals("blue_plus")) {
+            if (status.equals("alive") && name.equals("blue_plus")) {
                 piece.setName("blue_time");
                 piece.setImagePath(new File(piecesFolder, "blue_TimePiece.png"));
 
-                x = piece.getX();
-                y = piece.getY();
-
-                view.setIconForButton(buttonsall[x][y], piece.getImagePath(), piece.getName());
+                view.setIconForButton(buttonsall[x][y], piece.getImagePath(), name);
 
             }
 
-            else if (piece.status.equals("alive") && piece.name.equals("blue_time")) {
+            else if (status.equals("alive") && name.equals("blue_time")) {
                 piece.setName("blue_plus");
                 piece.setImagePath(new File(piecesFolder, "blue_PlusPiece.png"));
 
-                x = piece.getX();
-                y = piece.getY();
-
-                view.setIconForButton(buttonsall[x][y], piece.getImagePath(), piece.getName());
+                view.setIconForButton(buttonsall[x][y], piece.getImagePath(), name);
 
             }
 
-            else if (piece.status.equals("alive") && piece.name.equals("yellow_plus")) {
+            else if (status.equals("alive") && name.equals("yellow_plus")) {
                 piece.setName("yellow_time");
                 piece.setImagePath(new File(piecesFolder, "yellow_TimePiece.png"));
 
-                x = piece.getX();
-                y = piece.getY();
-
-                view.setIconForButton(buttonsall[x][y], piece.getImagePath(), piece.getName());
+                view.setIconForButton(buttonsall[x][y], piece.getImagePath(), name);
 
             }
 
-            else if (piece.status.equals("alive") && piece.name.equals("yellow_time")) {
+            else if (status.equals("alive") && name.equals("yellow_time")) {
                 piece.setName("yellow_plus");
                 piece.setImagePath(new File(piecesFolder, "yellow_PlusPiece.png"));
 
-                x = piece.getX();
-                y = piece.getY();
-
-                view.setIconForButton(buttonsall[x][y], piece.getImagePath(), piece.getName());
+                view.setIconForButton(buttonsall[x][y], piece.getImagePath(), name);
 
             }
         }
@@ -228,9 +203,9 @@ public class ChessController {
     // Movement Logic
     private boolean ismovevalid(int x, int y) {
 
-        String name = selectedPiece.name;
-        int ydistance = y - selectedPiece.yCoordinate;
-        int xdistance = x - selectedPiece.xCoordinate;
+        String name = selectedPiece.getName();
+        int ydistance = y - selectedPiece.getY();
+        int xdistance = x - selectedPiece.getX();
         boolean gotpiece = false;
 
         switch (name) {
@@ -242,7 +217,7 @@ public class ChessController {
                 if ((xdistance == 1 || xdistance == 2) && ydistance == 0) {
                     if (xdistance == 2) {
                         // Check if there are any pieces
-                        for (int i = selectedPiece.xCoordinate + 1; i < x; i++) {
+                        for (int i = selectedPiece.getX() + 1; i < x; i++) {
                             PointPiece checkPiece = getPieceAtPosition(i, y);
                             if (checkPiece != null) {
                                 gotpiece = true;
@@ -267,7 +242,7 @@ public class ChessController {
                 if ((xdistance == -1 || xdistance == -2) && ydistance == 0) {
                     if (xdistance == -2) {
                         // Check if there are any pieces
-                        for (int i = x + 1; i < selectedPiece.xCoordinate; i++) {
+                        for (int i = x + 1; i < selectedPiece.getX(); i++) {
                             PointPiece checkPiece = getPieceAtPosition(i, y);
                             if (checkPiece != null) {
                                 gotpiece = true;
@@ -302,12 +277,12 @@ public class ChessController {
                 if (Math.abs(xdistance) == Math.abs(ydistance)) {
                     if (Math.abs(xdistance) > 1) {
                         // When the targeted piece coordinate is smaller than selected Piece Coordinate
-                        if (x < selectedPiece.xCoordinate && y < selectedPiece.yCoordinate) {
+                        if (x < selectedPiece.getX() && y < selectedPiece.getY()) {
                             // Check if there are any pieces
-                            for (int i = x; i < selectedPiece.xCoordinate; i++) {
-                                for (int j = y; j < selectedPiece.yCoordinate; j++) {
-                                    int idistance = Math.abs(i - selectedPiece.xCoordinate);
-                                    int jdistance = Math.abs(j - selectedPiece.yCoordinate);
+                            for (int i = x; i < selectedPiece.getX(); i++) {
+                                for (int j = y; j < selectedPiece.getY(); j++) {
+                                    int idistance = Math.abs(i - selectedPiece.getX());
+                                    int jdistance = Math.abs(j - selectedPiece.getY());
 
                                     if (idistance == jdistance) {
                                         PointPiece checkPiece = getPieceAtPosition(i, j);
@@ -325,12 +300,12 @@ public class ChessController {
                                 return false;
                             }
                         } // When the targeted piece coordinate is bigger than selected Piece Coordinate
-                        else if (x > selectedPiece.xCoordinate && y > selectedPiece.yCoordinate) {
+                        else if (x > selectedPiece.getX() && y > selectedPiece.getY()) {
                             // Check if there are any pieces
-                            for (int i = selectedPiece.xCoordinate + 1; i < x; i++) {
-                                for (int j = selectedPiece.yCoordinate; j < y; j++) {
-                                    int idistance = Math.abs(i - selectedPiece.xCoordinate);
-                                    int jdistance = Math.abs(j - selectedPiece.yCoordinate);
+                            for (int i = selectedPiece.getX() + 1; i < x; i++) {
+                                for (int j = selectedPiece.getY(); j < y; j++) {
+                                    int idistance = Math.abs(i - selectedPiece.getX());
+                                    int jdistance = Math.abs(j - selectedPiece.getY());
 
                                     if (idistance == jdistance) {
                                         PointPiece checkPiece = getPieceAtPosition(i, j);
@@ -349,12 +324,12 @@ public class ChessController {
                             }
                         } // When the targeted piece xcoordinate is smaller than selected Piece
                           // xCoordinate and vice versa for ycoordinate
-                        else if (x < selectedPiece.xCoordinate && y > selectedPiece.yCoordinate) {
+                        else if (x < selectedPiece.getX() && y > selectedPiece.getY()) {
                             // Check if there are any pieces
-                            for (int i = x; i < selectedPiece.xCoordinate; i++) {
-                                for (int j = selectedPiece.yCoordinate; j < y; j++) {
-                                    int idistance = Math.abs(i - selectedPiece.xCoordinate);
-                                    int jdistance = Math.abs(j - selectedPiece.yCoordinate);
+                            for (int i = x; i < selectedPiece.getX(); i++) {
+                                for (int j = selectedPiece.getY(); j < y; j++) {
+                                    int idistance = Math.abs(i - selectedPiece.getX());
+                                    int jdistance = Math.abs(j - selectedPiece.getY());
 
                                     if (idistance == jdistance) {
                                         PointPiece checkPiece = getPieceAtPosition(i, j);
@@ -373,12 +348,12 @@ public class ChessController {
                             }
                         } // When the targeted piece ycoordinate is smaller than selected Piece
                           // yCoordinate and vice versa for xcoordinate
-                        else if (x > selectedPiece.xCoordinate && y < selectedPiece.yCoordinate) {
+                        else if (x > selectedPiece.getX() && y < selectedPiece.getY()) {
                             // Check if there are any pieces
-                            for (int i = selectedPiece.xCoordinate; i < x; i++) {
-                                for (int j = y; j < selectedPiece.yCoordinate; j++) {
-                                    int idistance = Math.abs(i - selectedPiece.xCoordinate);
-                                    int jdistance = Math.abs(j - selectedPiece.yCoordinate);
+                            for (int i = selectedPiece.getX(); i < x; i++) {
+                                for (int j = y; j < selectedPiece.getY(); j++) {
+                                    int idistance = Math.abs(i - selectedPiece.getX());
+                                    int jdistance = Math.abs(j - selectedPiece.getY());
 
                                     if (idistance == jdistance) {
                                         PointPiece checkPiece = getPieceAtPosition(i, j);
@@ -409,16 +384,13 @@ public class ChessController {
                     if (xdistance == 0) {
                         // When the targeted piece ycoordinate is smaller than selected Piece
                         // yCoordinate
-                        if (y < selectedPiece.yCoordinate) {
+                        if (y < selectedPiece.getY()) {
                             // Check if there are any pieces
-                            for (int i = y; i < selectedPiece.yCoordinate; i++) {
-                                int idistance = Math.abs(i - selectedPiece.yCoordinate);
+                            for (int i = y; i < selectedPiece.getY(); i++) {
 
-                                if (idistance == 0) {
-                                    PointPiece checkPiece = getPieceAtPosition(x, i);
-                                    if (checkPiece != null) {
-                                        gotpiece = true;
-                                    }
+                                PointPiece checkPiece = getPieceAtPosition(x, i);
+                                if (checkPiece != null) {
+                                    gotpiece = true;
                                 }
                             }
 
@@ -428,16 +400,13 @@ public class ChessController {
                                 return false;
                             }
                         } // When the targeted piece ycoordinate is bigger than selected Piece yCoordinate
-                        else if (y > selectedPiece.yCoordinate) {
+                        else if (y > selectedPiece.getY()) {
                             // Check if there are any pieces
-                            for (int i = selectedPiece.yCoordinate + 1; i < y; i++) {
-                                int idistance = Math.abs(i - selectedPiece.yCoordinate);
+                            for (int i = selectedPiece.getY() + 1; i < y; i++) {
 
-                                if (idistance == 0) {
-                                    PointPiece checkPiece = getPieceAtPosition(x, i);
-                                    if (checkPiece != null) {
-                                        gotpiece = true;
-                                    }
+                                PointPiece checkPiece = getPieceAtPosition(x, i);
+                                if (checkPiece != null) {
+                                    gotpiece = true;
                                 }
                             }
 
@@ -450,16 +419,13 @@ public class ChessController {
                     } else if (ydistance == 0) {
                         // When the targeted piece xcoordinate is smaller than selected Piece
                         // xCoordinate
-                        if (x < selectedPiece.xCoordinate) {
+                        if (x < selectedPiece.getX()) {
                             // Check if there are any pieces
-                            for (int i = x; i < selectedPiece.xCoordinate; i++) {
-                                int idistance = Math.abs(i - selectedPiece.xCoordinate);
+                            for (int i = x; i < selectedPiece.getX(); i++) {
 
-                                if (idistance == 0) {
-                                    PointPiece checkPiece = getPieceAtPosition(i, y);
-                                    if (checkPiece != null) {
-                                        gotpiece = true;
-                                    }
+                                PointPiece checkPiece = getPieceAtPosition(i, y);
+                                if (checkPiece != null) {
+                                    gotpiece = true;
                                 }
                             }
 
@@ -469,19 +435,15 @@ public class ChessController {
                                 return false;
                             }
                         } // When the targeted piece xcoordinate is bigger than selected Piece xCoordinate
-                        else if (x > selectedPiece.xCoordinate) {
+                        else if (x > selectedPiece.getX()) {
                             // Check if there are any pieces
-                            for (int i = selectedPiece.xCoordinate + 1; i < x; i++) {
-                                int idistance = Math.abs(i - selectedPiece.xCoordinate);
-
-                                if (idistance == 0) {
-                                    PointPiece checkPiece = getPieceAtPosition(i, y);
-                                    if (checkPiece != null) {
-                                        gotpiece = true;
-                                    }
+                            for (int i = selectedPiece.getX() + 1; i < x; i++) {
+                                PointPiece checkPiece = getPieceAtPosition(i, y);
+                                if (checkPiece != null) {
+                                    gotpiece = true;
                                 }
                             }
-
+    
                             if (!gotpiece) {
                                 return true;
                             } else {
@@ -515,11 +477,11 @@ public class ChessController {
             // Capture the piece
             String name = targetPiece.getName();
             if (name == "blue_sun" || name == "yellow_sun") {
-                targetPiece.status = "dead";
+                targetPiece.setStatus("dead");
                 view.gameover();
 
             } else {
-                targetPiece.status = "dead";
+                targetPiece.setStatus("dead");
             }
         }
     }
@@ -528,51 +490,41 @@ public class ChessController {
         File piecesFolder = new File("pieces");
 
         for (PointPiece piece : piecesMap.values()) {
-            int x = 0;
-            int y = 0;
+            int x = piece.getX();
+            int y = piece.getY();
+            String name = piece.getName();
+            String status = piece.getStatus();
 
-            if (piece.status.equals("alive") && piece.name.equals("blue_point") && piece.xCoordinate == 5) {
+            if (status.equals("alive") && name.equals("blue_point") && x == 5) {
                 piece.setName("blue_pointflipped");
                 piece.setImagePath(new File(piecesFolder, "blue_PointPieceFlipped.png"));
 
-                x = piece.getX();
-                y = piece.getY();
-
-                view.setIconForButton(buttonsall[x][y], piece.getImagePath(), piece.getName());
+                view.setIconForButton(buttonsall[x][y], piece.getImagePath(), name);
 
             }
 
-            else if (piece.status.equals("alive") && piece.name.equals("blue_pointflipped") && piece.xCoordinate == 0) {
+            else if (status.equals("alive") && name.equals("blue_pointflipped") && x == 0) {
                 piece.setName("blue_point");
                 piece.setImagePath(new File(piecesFolder, "blue_PointPiece.png"));
 
-                x = piece.getX();
-                y = piece.getY();
-
-                view.setIconForButton(buttonsall[x][y], piece.getImagePath(), piece.getName());
+                view.setIconForButton(buttonsall[x][y], piece.getImagePath(), name);
 
             }
 
-            else if (piece.status.equals("alive") && piece.name.equals("yellow_point") && piece.xCoordinate == 0) {
+            else if (status.equals("alive") && name.equals("yellow_point") && x == 0) {
                 piece.setName("yellow_pointflipped");
                 piece.setImagePath(new File(piecesFolder, "yellow_PointPieceFlipped.png"));
 
-                x = piece.getX();
-                y = piece.getY();
-
-                view.setIconForButton(buttonsall[x][y], piece.getImagePath(), piece.getName());
+                view.setIconForButton(buttonsall[x][y], piece.getImagePath(), name);
 
             }
 
-            else if (piece.status.equals("alive") && piece.name.equals("yellow_pointflipped")
-                    && piece.xCoordinate == 5) {
+            else if (status.equals("alive") && name.equals("yellow_pointflipped")
+                    && x == 5) {
                 piece.setName("yellow_point");
                 piece.setImagePath(new File(piecesFolder, "yellow_PointPiece.png"));
 
-                x = piece.getX();
-                y = piece.getY();
-
-                view.setIconForButton(buttonsall[x][y], piece.getImagePath(), piece.getName());
+                view.setIconForButton(buttonsall[x][y], piece.getImagePath(), name);
 
             }
         }
@@ -591,7 +543,6 @@ public class ChessController {
                         ", X: " + value.getX() + ", Y: " + value.getY() + ", Player: " + value.getPlayer()
                         + ", Status: " + value.getStatus() + "\n");
             }
-            System.out.println("Pieces information saved to file: " + filePath);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -631,7 +582,6 @@ public class ChessController {
                     System.err.println("Invalid line format: " + line);
                 }
             }
-            System.out.println("Pieces information loaded from file: " + filePath);
         } catch (IOException | NumberFormatException e) {
             e.printStackTrace();
         }
@@ -663,8 +613,8 @@ public class ChessController {
                     capturepiece(clickedButton);
 
                     // Update the piecesMap with the new coordinates
-                    selectedPiece.xCoordinate = x;
-                    selectedPiece.yCoordinate = y;
+                    selectedPiece.setX(x);
+                    selectedPiece.setY(y);
 
                     // Update the view with the new icon for the clicked button
                     view.setIconForButton(clickedButton, selectedPiece.getImagePath(), selectedPiece.getName());
@@ -687,6 +637,7 @@ public class ChessController {
                     save("autosave.txt"); // will autosave after every move
                     switchPlayer(); // switch player
                     changeturntotext(); // the player is saved as number 0 and 1. This will turn it to text
+                    view.setText();
                 } else {
                     return;
                 }
