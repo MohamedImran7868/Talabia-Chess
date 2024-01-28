@@ -21,6 +21,8 @@ public class ChessController {
     private static Map<String, PointPiece> piecesMap = new HashMap<>(); // Map to store information about each piece
     private JButton selectedButton = null;
     private int turn = 0;
+    private String player;
+
 
     public ChessController(GUI view) {
         this.view = view;
@@ -36,7 +38,6 @@ public class ChessController {
     }
 
     public void changeturntotext() {
-        String player = null;
         if (currentPlayer == 0) {
             player = "YELLOW";
         } else {
@@ -44,6 +45,10 @@ public class ChessController {
         }
 
         view.turn.setText("Turn: " + player);
+    }
+
+    public String winner() {
+        return player;
     }
 
     public void printPiecesMap() {
@@ -125,6 +130,7 @@ public class ChessController {
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 7; j++) {
                 buttonsall[i][j] = new JButton();
+                buttonsall[i][j].setFocusable(false);
                 buttonsall[i][j].setBackground((i + j) % 2 == 0 ? Color.WHITE : Color.GRAY);
                 buttonsall[i][j].setPreferredSize(new Dimension(64, 64)); // Set preferred size here
                 buttonsall[i][j].addActionListener(new ButtonClickListener(i, j));
@@ -226,12 +232,6 @@ public class ChessController {
         int ydistance = y - selectedPiece.yCoordinate;
         int xdistance = x - selectedPiece.xCoordinate;
         boolean gotpiece = false;
-
-        System.out.println("Name: " + name);
-        System.out.println("X: " + selectedPiece.xCoordinate);
-        System.out.println("Y: " + selectedPiece.yCoordinate);
-        System.out.println("DX: " + xdistance);
-        System.out.println("DY: " + ydistance);
 
         switch (name) {
             case "blue_point":
@@ -515,12 +515,10 @@ public class ChessController {
             // Capture the piece
             String name = targetPiece.getName();
             if (name == "blue_sun" || name == "yellow_sun") {
-                System.out.println("WINCaptured: " + name);
                 targetPiece.status = "dead";
                 view.gameover();
 
             } else {
-                System.out.println("Captured: " + name);
                 targetPiece.status = "dead";
             }
         }
@@ -582,6 +580,7 @@ public class ChessController {
 
     public void save(String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write("Turn: " + turn + "\n");
             writer.write("Current Player: " + currentPlayer + "\n");
             for (Map.Entry<String, PointPiece> entry : piecesMap.entrySet()) {
                 String key = entry.getKey();
@@ -618,6 +617,11 @@ public class ChessController {
                     // Create a new PointPiece and add it to the piecesMap
                     PointPiece piece = new PointPiece(pieceName, path, x, y, player, status);
                     piecesMap.put(key, piece);
+                } else if (parts.length == 1 && parts[0].startsWith("Turn: ")) {
+                    // Extract and set the currentPlayer value
+                    int turnbeforeswap = Integer.parseInt(parts[0].replace("Turn: ", ""));
+
+                    turn = turnbeforeswap;
                 } else if (parts.length == 1 && parts[0].startsWith("Current Player: ")) {
                     // Extract and set the currentPlayer value
                     int cp = Integer.parseInt(parts[0].replace("Current Player: ", ""));
@@ -651,7 +655,6 @@ public class ChessController {
             if (clickedPiece != null && clickedPiece.getPlayer() == currentPlayer) {
                 // If a piece is clicked, store it as the selected piece
                 selectedButton = clickedButton;
-                System.out.println("yes");
             } else if (selectedButton != null) {
                 selectedPiece = getPieceAtPosition(selectedButton);
 
@@ -662,10 +665,6 @@ public class ChessController {
                     // Update the piecesMap with the new coordinates
                     selectedPiece.xCoordinate = x;
                     selectedPiece.yCoordinate = y;
-
-                    System.out.println("NewX: " + selectedPiece.xCoordinate);
-                    System.out.println("NewY: " + selectedPiece.yCoordinate);
-                    System.out.println("Player: " + currentPlayer);
 
                     // Update the view with the new icon for the clicked button
                     view.setIconForButton(clickedButton, selectedPiece.getImagePath(), selectedPiece.getName());
