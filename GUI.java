@@ -16,58 +16,46 @@ public class GUI {
 
     GUI() {
         
-        p = new JPanel(new GridLayout(3, 1));
+        p = new JPanel(new GridLayout(2, 1));
         frame.add(p);
-        frame.setSize(300,400);
+        frame.setSize(300,250);
         controller = new ChessController(this);
         JButton Start = new JButton("Start Game");
         JButton load = new JButton("Load Game");
-        JButton option = new JButton("Options");
         
         JPanel startpanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JPanel loadpanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JPanel optionpanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
-        p.setBackground(new Color (34, 139, 34));
-        startpanel.setBackground(new Color (34, 139, 34));
-        loadpanel.setBackground(new Color (34, 139, 34));
-        optionpanel.setBackground(new Color (34, 139, 34));
+        p.setBackground(new Color (0, 255, 255));
+        startpanel.setBackground(new Color (0, 255, 255));
+        loadpanel.setBackground(new Color (0, 255, 255));
 
         Start.setFocusable(false);
         load.setFocusable(false);
-        option.setFocusable(false);
 
         startpanel.add(Start);
         loadpanel.add(load);
-        optionpanel.add(option);
 
         Start.setFont(new Font("Arial", Font.BOLD, 20));
         load.setFont(new Font("Arial", Font.BOLD, 20));
-        option.setFont(new Font("Arial", Font.BOLD, 20));
 
         p.add(startpanel, BorderLayout.NORTH);
         p.add(loadpanel, BorderLayout.CENTER);
-        p.add(optionpanel, BorderLayout.SOUTH);
 
         Start.addActionListener(new Start(true));
         load.addActionListener(new Load());
         
          
-        Start.setBackground(new Color(0,0,128));
-        load.setBackground(new Color(0, 0, 128));
-        option.setBackground(new Color(0, 0, 128));
-        Start.setForeground(Color.YELLOW);
-        load.setForeground(Color.YELLOW);
-        option.setForeground(Color.YELLOW);
-        //option.addActionListener(new Option());
+        Start.setBackground(new Color(0,255,0));
+        load.setBackground(new Color(0, 255, 0));
+        Start.setForeground(Color.WHITE);
+        load.setForeground(Color.WHITE);
 
         // Settings frame
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null); // Center the frame on the screen
         frame.setResizable(true);
         frame.setVisible(true);
-
-        
     }
 
     public class Start implements ActionListener {
