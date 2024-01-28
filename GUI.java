@@ -15,22 +15,35 @@ public class GUI {
     private JPanel p;
 
     GUI() {
+        
         p = new JPanel(new GridLayout(3, 1));
         frame.add(p);
-        frame.setSize(200,320);
-
+        frame.setSize(300,400);
         controller = new ChessController(this);
-
         JButton Start = new JButton("Start Game");
-        JButton load = new JButton("load Game");
+        JButton load = new JButton("Load Game");
         JButton option = new JButton("Options");
-        JPanel startpanel = new JPanel(new FlowLayout());
-        JPanel loadpanel = new JPanel(new FlowLayout());
-        JPanel optionpanel = new JPanel(new FlowLayout());
+        
+        JPanel startpanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel loadpanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel optionpanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
-        startpanel.add(Start, BorderLayout.CENTER);
-        loadpanel.add(load, BorderLayout.CENTER);
-        optionpanel.add(option, BorderLayout.CENTER);
+        p.setBackground(new Color (34, 139, 34));
+        startpanel.setBackground(new Color (34, 139, 34));
+        loadpanel.setBackground(new Color (34, 139, 34));
+        optionpanel.setBackground(new Color (34, 139, 34));
+
+        Start.setFocusable(false);
+        load.setFocusable(false);
+        option.setFocusable(false);
+
+        startpanel.add(Start);
+        loadpanel.add(load);
+        optionpanel.add(option);
+
+        Start.setFont(new Font("Arial", Font.BOLD, 20));
+        load.setFont(new Font("Arial", Font.BOLD, 20));
+        option.setFont(new Font("Arial", Font.BOLD, 20));
 
         p.add(startpanel, BorderLayout.NORTH);
         p.add(loadpanel, BorderLayout.CENTER);
@@ -38,6 +51,14 @@ public class GUI {
 
         Start.addActionListener(new Start(true));
         load.addActionListener(new Load());
+        
+         
+        Start.setBackground(new Color(0,0,128));
+        load.setBackground(new Color(0, 0, 128));
+        option.setBackground(new Color(0, 0, 128));
+        Start.setForeground(Color.YELLOW);
+        load.setForeground(Color.YELLOW);
+        option.setForeground(Color.YELLOW);
         //option.addActionListener(new Option());
 
         // Settings frame
@@ -45,6 +66,8 @@ public class GUI {
         frame.setLocationRelativeTo(null); // Center the frame on the screen
         frame.setResizable(true);
         frame.setVisible(true);
+
+        
     }
 
     public class Start implements ActionListener {
@@ -68,6 +91,7 @@ public class GUI {
             JButton save = new JButton("Save game");
             JPanel optionPanel = new JPanel(new GridLayout(1, 3));
 
+            save.setFocusable(false);
             tab.setLayout(new BorderLayout());
             tab.setPreferredSize(new Dimension(600, 20));
             save.setPreferredSize(new Dimension(100, 15));
@@ -138,6 +162,7 @@ public class GUI {
 
                     // Call the saveGame method in the ChessController
                     controller.save(fileToSave.getAbsolutePath());
+                    break;
                 } else {
                     // If the file doesn't exist, show an error message
                     JOptionPane.showMessageDialog(frame, "Please enter filename.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -178,16 +203,6 @@ public class GUI {
     }
 
     public void gameover() {
-        Object[] options = {"OK", "Restart"};
-    
-        int option = JOptionPane.showOptionDialog(frame,"GAME ENDS","GAME OVER!!!", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[1]);
-        //JOptionPane.showMessageDialog(frame, "GAME ENDS", "GAME OVER!!!", JOptionPane.INFORMATION_MESSAGE);
-        if (option == JOptionPane.OK_OPTION) {
-            System.exit(0);
-            
-        } else if (option == JOptionPane.YES_OPTION) {
-            new Start(false).actionPerformed(null);
-
-        }
+        JOptionPane.showMessageDialog(frame, "GAME ENDS. " + controller.winner() + " WINS.", "GAME OVER!!!", JOptionPane.INFORMATION_MESSAGE);
     }
 }
