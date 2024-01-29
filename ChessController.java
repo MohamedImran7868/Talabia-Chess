@@ -641,7 +641,7 @@ public class ChessController {
             // Check if the clicked button has a piece
             PointPiece clickedPiece = getPieceAtPosition(x, y);
 
-            if (clickedPiece != null && clickedPiece.getPlayer() == currentPlayer) {
+            if (clickedPiece != null && clickedPiece.getPlayer() == currentPlayer && selectedButton == null) {
                 // If a piece is clicked, store it as the selected piece
                 selectedButton = clickedButton;
                 selectedButton.setBackground(Color.GREEN);
@@ -683,6 +683,9 @@ public class ChessController {
                     changeturntotext(); // the player is saved as number 0 and 1. This will turn it to text
                     view.setText();
                 } else {
+                    
+                    selectedButton.setBackground(originalButtonColors.get(selectedButton));
+                    selectedButton = null;
                     return;
                 }
             }
