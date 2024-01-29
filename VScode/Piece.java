@@ -1,5 +1,5 @@
 import java.io.File;
-
+//All
 public class Piece {
     private String name;
     private File imagePath;
