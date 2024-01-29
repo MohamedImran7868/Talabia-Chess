@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.awt.image.BufferedImage;
-
+// All
 public class GUI {
     private static JFrame frame = new JFrame("Talabia Chess");
     private ChessController controller;
