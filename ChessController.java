@@ -279,8 +279,8 @@ public class ChessController {
                         // When the targeted piece coordinate is smaller than selected Piece Coordinate
                         if (x < selectedPiece.getX() && y < selectedPiece.getY()) {
                             // Check if there are any pieces
-                            for (int i = x; i < selectedPiece.getX(); i++) {
-                                for (int j = y; j < selectedPiece.getY(); j++) {
+                            for (int i = x + 1; i < selectedPiece.getX(); i++) {
+                                for (int j = y + 1; j < selectedPiece.getY(); j++) {
                                     int idistance = Math.abs(i - selectedPiece.getX());
                                     int jdistance = Math.abs(j - selectedPiece.getY());
 
@@ -386,7 +386,7 @@ public class ChessController {
                         // yCoordinate
                         if (y < selectedPiece.getY()) {
                             // Check if there are any pieces
-                            for (int i = y; i < selectedPiece.getY(); i++) {
+                            for (int i = y + 1; i < selectedPiece.getY(); i++) {
 
                                 PointPiece checkPiece = getPieceAtPosition(x, i);
                                 if (checkPiece != null) {
@@ -421,7 +421,7 @@ public class ChessController {
                         // xCoordinate
                         if (x < selectedPiece.getX()) {
                             // Check if there are any pieces
-                            for (int i = x; i < selectedPiece.getX(); i++) {
+                            for (int i = x + 1; i < selectedPiece.getX(); i++) {
 
                                 PointPiece checkPiece = getPieceAtPosition(i, y);
                                 if (checkPiece != null) {
