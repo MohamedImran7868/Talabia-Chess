@@ -1,6 +1,6 @@
 import java.io.File;
 
-public class PointPiece {
+public class Piece {
     private String name;
     private File imagePath;
     private int xCoordinate;
@@ -8,7 +8,7 @@ public class PointPiece {
     private int player;
     private String status;
 
-    public PointPiece(String name, File file, int x, int y, int player, String status) {
+    public Piece(String name, File file, int x, int y, int player, String status) {
         this.name = name;
         this.imagePath = file;
         this.xCoordinate = x;
