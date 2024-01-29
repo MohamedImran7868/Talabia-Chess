@@ -29,12 +29,12 @@ public class ChessController {
         this.view = view;
         this.currentPlayer = 0;
     }
-
+    // All
     // Switches the player
     private void switchPlayer() {
         currentPlayer = (currentPlayer + 1) % 2; // Toggle between 0 and 1 (player 1 and player 2)
     }
-
+    //All
     // Return who is the player
     public String getplayer() {
         if (currentPlayer == 0) {
@@ -44,12 +44,12 @@ public class ChessController {
         }
         return player;
     }
-
+    // All
     // Return how many moves before swap
     public int getturn() {
         return turn;
     }
-
+    // Ikhwan
     // Initialize the peices
     public void initializePieces() {
         File piecesFolder = new File("Pieces"); // Create a File object for the "pieces" folder
@@ -116,7 +116,7 @@ public class ChessController {
                 new Piece("yellow_sun", new File(piecesFolder, "yellow_SunPiece.png"), 5, 3, 0, "alive"));
 
     }
-
+    // Ikhwan
     // Initialize the button
     public void initializeButtons(JPanel panel) {
         for (int i = 0; i < 6; i++) {
@@ -141,7 +141,7 @@ public class ChessController {
             }
         }
     }
-
+    // All
     // Check whether a certain coordinate got piece or not
     private Piece getPieceAtPosition(int xCoordinate, int yCoordinate) {
         for (Piece piece : piecesMap.values()) {
@@ -151,7 +151,7 @@ public class ChessController {
         }
         return null;
     }
-
+    // All
     // Check whether a certain button got piece or not
     private Piece getPieceAtPosition(JButton button) {
         int x = -1;
@@ -170,7 +170,7 @@ public class ChessController {
 
         return getPieceAtPosition(x, y);
     }
-
+    // Imran
     // Movement Logic
     private boolean ismovevalid(int x, int y) {
 
@@ -439,7 +439,7 @@ public class ChessController {
                 return false;
         }
     }
-
+    // Ikhwan
     // Swap piece
     private void swapPiece() {
         File piecesFolder = new File("pieces");
@@ -471,7 +471,7 @@ public class ChessController {
             }
         }
     }
-
+    // Farris
     // Capture piece
     private void capturepiece(JButton clickedButton) {
 
@@ -489,7 +489,7 @@ public class ChessController {
             }
         }
     }
-
+    //Khirthishen
     // Rotate piece
     private void rotatepoint() {
         File piecesFolder = new File("pieces");
@@ -534,7 +534,7 @@ public class ChessController {
             }
         }
     }
-
+    // Imran
     // Flip board
     public void flipboard(JButton clickedButton) {
         File piecesFolder = new File("pieces");
@@ -580,7 +580,7 @@ public class ChessController {
             }
         }
     }
-
+    // Amin & Ikhwan
     // Save logic
     public void save(String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
@@ -599,7 +599,7 @@ public class ChessController {
             e.printStackTrace();
         }
     }
-
+    // Amin & Ikhwan
     // Load logic
     public void load(String filePath) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
