@@ -25,6 +25,7 @@ public class GUI {
         JLabel Welcome = new JLabel("Welcome To Talabia Chess");
         JButton Start = new JButton("Start Game");
         JButton load = new JButton("Load Game");
+
         ImageIcon icon = new ImageIcon("Horse.jpg");
         JPanel startpanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JPanel loadpanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
