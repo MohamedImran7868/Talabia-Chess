@@ -13,16 +13,16 @@ import java.util.Map;
 
 public class ChessController {
     private GUI view;
-    private PointPiece selectedPiece;
+    private Piece selectedPiece;
     private int currentPlayer;
+    private String player;
     private static int row = 7;
     private static int column = 6;
     private static JButton[][] buttonsall = new JButton[column][row]; // JButton for each tile (42)
-    private static Map<String, PointPiece> piecesMap = new HashMap<>(); // Map to store information about each piece
+    private static Map<String, Piece> piecesMap = new HashMap<>(); // Map to store information about each piece
     private Map<JButton, Color> originalButtonColors = new HashMap<>();
     private JButton selectedButton = null;
     private int turn = 4;
-    private String player;
 
 
     public ChessController(GUI view) {
@@ -30,92 +30,94 @@ public class ChessController {
         this.currentPlayer = 0;
     }
 
+    // Switches the player
     private void switchPlayer() {
         currentPlayer = (currentPlayer + 1) % 2; // Toggle between 0 and 1 (player 1 and player 2)
     }
 
-    public void changeturntotext() {
+    // Return who is the player
+    public String getplayer() {
         if (currentPlayer == 0) {
-            player = "YELLOW";
+            player = "RED";
         } else {
             player = "BLUE";
         }
-    }
-
-    public String getplayer() {
         return player;
     }
 
+    // Return how many moves before swap
     public int getturn() {
         return turn;
     }
 
+    // Initialize the peices
     public void initializePieces() {
         File piecesFolder = new File("Pieces"); // Create a File object for the "pieces" folder
 
         // Add pieces at initial places
         // blue pieces
         piecesMap.put("blue_point0",
-                new PointPiece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 0, 1, "alive"));
+                new Piece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 0, 1, "alive"));
         piecesMap.put("blue_point1",
-                new PointPiece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 1, 1, "alive"));
+                new Piece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 1, 1, "alive"));
         piecesMap.put("blue_point2",
-                new PointPiece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 2, 1, "alive"));
+                new Piece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 2, 1, "alive"));
         piecesMap.put("blue_point3",
-                new PointPiece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 3, 1, "alive"));
+                new Piece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 3, 1, "alive"));
         piecesMap.put("blue_point4",
-                new PointPiece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 4, 1, "alive"));
+                new Piece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 4, 1, "alive"));
         piecesMap.put("blue_point5",
-                new PointPiece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 5, 1, "alive"));
+                new Piece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 5, 1, "alive"));
         piecesMap.put("blue_point6",
-                new PointPiece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 6, 1, "alive"));
+                new Piece("blue_point", new File(piecesFolder, "blue_PointPiece.png"), 1, 6, 1, "alive"));
         piecesMap.put("blue_plus0",
-                new PointPiece("blue_plus", new File(piecesFolder, "blue_PlusPiece.png"), 0, 0, 1, "alive"));
+                new Piece("blue_plus", new File(piecesFolder, "blue_PlusPiece.png"), 0, 0, 1, "alive"));
         piecesMap.put("blue_plus1",
-                new PointPiece("blue_plus", new File(piecesFolder, "blue_PlusPiece.png"), 0, 6, 1, "alive"));
+                new Piece("blue_plus", new File(piecesFolder, "blue_PlusPiece.png"), 0, 6, 1, "alive"));
         piecesMap.put("blue_hourglass0",
-                new PointPiece("blue_hourglass", new File(piecesFolder, "blue_HourglassPiece.png"), 0, 1, 1, "alive"));
+                new Piece("blue_hourglass", new File(piecesFolder, "blue_HourglassPiece.png"), 0, 1, 1, "alive"));
         piecesMap.put("blue_hourglass1",
-                new PointPiece("blue_hourglass", new File(piecesFolder, "blue_HourglassPiece.png"), 0, 5, 1, "alive"));
+                new Piece("blue_hourglass", new File(piecesFolder, "blue_HourglassPiece.png"), 0, 5, 1, "alive"));
         piecesMap.put("blue_time0",
-                new PointPiece("blue_time", new File(piecesFolder, "blue_TimePiece.png"), 0, 2, 1, "alive"));
+                new Piece("blue_time", new File(piecesFolder, "blue_TimePiece.png"), 0, 2, 1, "alive"));
         piecesMap.put("blue_time1",
-                new PointPiece("blue_time", new File(piecesFolder, "blue_TimePiece.png"), 0, 4, 1, "alive"));
+                new Piece("blue_time", new File(piecesFolder, "blue_TimePiece.png"), 0, 4, 1, "alive"));
         piecesMap.put("blue_sun",
-                new PointPiece("blue_sun", new File(piecesFolder, "blue_SunPiece.png"), 0, 3, 1, "alive"));
+                new Piece("blue_sun", new File(piecesFolder, "blue_SunPiece.png"), 0, 3, 1, "alive"));
 
         // yellow pieces
         piecesMap.put("yellow_point0",
-                new PointPiece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 0, 0, "alive"));
+                new Piece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 0, 0, "alive"));
         piecesMap.put("yellow_point1",
-                new PointPiece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 1, 0, "alive"));
+                new Piece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 1, 0, "alive"));
         piecesMap.put("yellow_point2",
-                new PointPiece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 2, 0, "alive"));
+                new Piece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 2, 0, "alive"));
         piecesMap.put("yellow_point3",
-                new PointPiece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 3, 0, "alive"));
+                new Piece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 3, 0, "alive"));
         piecesMap.put("yellow_point4",
-                new PointPiece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 4, 0, "alive"));
+                new Piece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 4, 0, "alive"));
         piecesMap.put("yellow_point5",
-                new PointPiece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 5, 0, "alive"));
+                new Piece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 5, 0, "alive"));
         piecesMap.put("yellow_point6",
-                new PointPiece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 6, 0, "alive"));
+                new Piece("yellow_point", new File(piecesFolder, "yellow_PointPiece.png"), 4, 6, 0, "alive"));
         piecesMap.put("yellow_plus0",
-                new PointPiece("yellow_plus", new File(piecesFolder, "yellow_PlusPiece.png"), 5, 0, 0, "alive"));
+                new Piece("yellow_plus", new File(piecesFolder, "yellow_PlusPiece.png"), 5, 0, 0, "alive"));
         piecesMap.put("yellow_plus1",
-                new PointPiece("yellow_plus", new File(piecesFolder, "yellow_PlusPiece.png"), 5, 6, 0, "alive"));
-        piecesMap.put("yellow_hourglass0", new PointPiece("yellow_hourglass",
+                new Piece("yellow_plus", new File(piecesFolder, "yellow_PlusPiece.png"), 5, 6, 0, "alive"));
+        piecesMap.put("yellow_hourglass0", new Piece("yellow_hourglass",
                 new File(piecesFolder, "yellow_Hourglasspiece.png"), 5, 1, 0, "alive"));
-        piecesMap.put("yellow_hourglass1", new PointPiece("yellow_hourglass",
+        piecesMap.put("yellow_hourglass1", new Piece("yellow_hourglass",
                 new File(piecesFolder, "yellow_Hourglasspiece.png"), 5, 5, 0, "alive"));
         piecesMap.put("yellow_time0",
-                new PointPiece("yellow_time", new File(piecesFolder, "yellow_TimePiece.png"), 5, 2, 0, "alive"));
+                new Piece("yellow_time", new File(piecesFolder, "yellow_TimePiece.png"), 5, 2, 0, "alive"));
         piecesMap.put("yellow_time1",
-                new PointPiece("yellow_time", new File(piecesFolder, "yellow_TimePiece.png"), 5, 4, 0, "alive"));
+                new Piece("yellow_time", new File(piecesFolder, "yellow_TimePiece.png"), 5, 4, 0, "alive"));
         piecesMap.put("yellow_sun",
-                new PointPiece("yellow_sun", new File(piecesFolder, "yellow_SunPiece.png"), 5, 3, 0, "alive"));
+                new Piece("yellow_sun", new File(piecesFolder, "yellow_SunPiece.png"), 5, 3, 0, "alive"));
 
     }
 
+    // Initialize the button
     public void initializeButtons(JPanel panel) {
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 7; j++) {
@@ -132,7 +134,7 @@ public class ChessController {
                 panel.add(buttonsall[i][j]);
 
                 // Check if there is a piece at this position
-                PointPiece piece = getPieceAtPosition(i, j);
+                Piece piece = getPieceAtPosition(i, j);
                 if (piece != null) {
                     view.setIconForButton(buttonsall[i][j], piece.getImagePath(), piece.getName());
                 }
@@ -140,8 +142,9 @@ public class ChessController {
         }
     }
 
-    private PointPiece getPieceAtPosition(int xCoordinate, int yCoordinate) {
-        for (PointPiece piece : piecesMap.values()) {
+    // Check whether a certain coordinate got piece or not
+    private Piece getPieceAtPosition(int xCoordinate, int yCoordinate) {
+        for (Piece piece : piecesMap.values()) {
             if (piece.getX() == xCoordinate && piece.getY() == yCoordinate && "alive".equals(piece.getStatus())) {
                 return piece;
             }
@@ -149,7 +152,8 @@ public class ChessController {
         return null;
     }
 
-    private PointPiece getPieceAtPosition(JButton button) {
+    // Check whether a certain button got piece or not
+    private Piece getPieceAtPosition(JButton button) {
         int x = -1;
         int y = -1;
 
@@ -165,37 +169,6 @@ public class ChessController {
         }
 
         return getPieceAtPosition(x, y);
-    }
-
-    private void swapPiece() {
-        File piecesFolder = new File("pieces");
-
-        for (PointPiece piece : piecesMap.values()) {
-            int x = piece.getX();
-            int y = piece.getY();
-            String name = piece.getName();
-            String status = piece.getStatus();
-
-            if (status.equals("alive")) {
-
-                if (name.equals("blue_plus")) {
-                    piece.setName("blue_time");
-                    piece.setImagePath(new File(piecesFolder, "blue_TimePiece.png"));
-                } else if (name.equals("blue_time")) {
-                    piece.setName("blue_plus");
-                    piece.setImagePath(new File(piecesFolder, "blue_PlusPiece.png"));
-                } else if (name.equals("yellow_plus")) {
-                    piece.setName("yellow_time");
-                    piece.setImagePath(new File(piecesFolder, "yellow_TimePiece.png"));
-                } else if (name.equals("yellow_time")) {
-                    piece.setName("yellow_plus");
-                    piece.setImagePath(new File(piecesFolder, "yellow_PlusPiece.png"));
-                }
-
-                view.setIconForButton(buttonsall[x][y], piece.getImagePath(), name);
-
-            }
-        }
     }
 
     // Movement Logic
@@ -216,7 +189,7 @@ public class ChessController {
                     if (xdistance == 2) {
                         // Check if there are any pieces
                         for (int i = selectedPiece.getX() + 1; i < x; i++) {
-                            PointPiece checkPiece = getPieceAtPosition(i, y);
+                            Piece checkPiece = getPieceAtPosition(i, y);
                             if (checkPiece != null) {
                                 gotpiece = true;
                             }
@@ -241,7 +214,7 @@ public class ChessController {
                     if (xdistance == -2) {
                         // Check if there are any pieces
                         for (int i = x + 1; i < selectedPiece.getX(); i++) {
-                            PointPiece checkPiece = getPieceAtPosition(i, y);
+                            Piece checkPiece = getPieceAtPosition(i, y);
                             if (checkPiece != null) {
                                 gotpiece = true;
                             }
@@ -283,7 +256,7 @@ public class ChessController {
                                     int jdistance = Math.abs(j - selectedPiece.getY());
 
                                     if (idistance == jdistance) {
-                                        PointPiece checkPiece = getPieceAtPosition(i, j);
+                                        Piece checkPiece = getPieceAtPosition(i, j);
                                         if (checkPiece != null) {
                                             gotpiece = true;
                                         }
@@ -306,7 +279,7 @@ public class ChessController {
                                     int jdistance = Math.abs(j - selectedPiece.getY());
 
                                     if (idistance == jdistance) {
-                                        PointPiece checkPiece = getPieceAtPosition(i, j);
+                                        Piece checkPiece = getPieceAtPosition(i, j);
                                         if (checkPiece != null) {
                                             gotpiece = true;
                                         }
@@ -330,7 +303,7 @@ public class ChessController {
                                     int jdistance = Math.abs(j - selectedPiece.getY());
 
                                     if (idistance == jdistance) {
-                                        PointPiece checkPiece = getPieceAtPosition(i, j);
+                                        Piece checkPiece = getPieceAtPosition(i, j);
                                         if (checkPiece != null) {
                                             gotpiece = true;
                                         }
@@ -354,7 +327,7 @@ public class ChessController {
                                     int jdistance = Math.abs(j - selectedPiece.getY());
 
                                     if (idistance == jdistance) {
-                                        PointPiece checkPiece = getPieceAtPosition(i, j);
+                                        Piece checkPiece = getPieceAtPosition(i, j);
                                         if (checkPiece != null) {
                                             gotpiece = true;
                                         }
@@ -386,7 +359,7 @@ public class ChessController {
                             // Check if there are any pieces
                             for (int i = y + 1; i < selectedPiece.getY(); i++) {
 
-                                PointPiece checkPiece = getPieceAtPosition(x, i);
+                                Piece checkPiece = getPieceAtPosition(x, i);
                                 if (checkPiece != null) {
                                     gotpiece = true;
                                 }
@@ -402,7 +375,7 @@ public class ChessController {
                             // Check if there are any pieces
                             for (int i = selectedPiece.getY() + 1; i < y; i++) {
 
-                                PointPiece checkPiece = getPieceAtPosition(x, i);
+                                Piece checkPiece = getPieceAtPosition(x, i);
                                 if (checkPiece != null) {
                                     gotpiece = true;
                                 }
@@ -421,7 +394,7 @@ public class ChessController {
                             // Check if there are any pieces
                             for (int i = x + 1; i < selectedPiece.getX(); i++) {
 
-                                PointPiece checkPiece = getPieceAtPosition(i, y);
+                                Piece checkPiece = getPieceAtPosition(i, y);
                                 if (checkPiece != null) {
                                     gotpiece = true;
                                 }
@@ -436,7 +409,7 @@ public class ChessController {
                         else if (x > selectedPiece.getX()) {
                             // Check if there are any pieces
                             for (int i = selectedPiece.getX() + 1; i < x; i++) {
-                                PointPiece checkPiece = getPieceAtPosition(i, y);
+                                Piece checkPiece = getPieceAtPosition(i, y);
                                 if (checkPiece != null) {
                                     gotpiece = true;
                                 }
@@ -467,9 +440,42 @@ public class ChessController {
         }
     }
 
+    // Swap piece
+    private void swapPiece() {
+        File piecesFolder = new File("pieces");
+
+        for (Piece piece : piecesMap.values()) {
+            int x = piece.getX();
+            int y = piece.getY();
+            String name = piece.getName();
+            String status = piece.getStatus();
+
+            if (status.equals("alive")) {
+
+                if (name.equals("blue_plus")) {
+                    piece.setName("blue_time");
+                    piece.setImagePath(new File(piecesFolder, "blue_TimePiece.png"));
+                } else if (name.equals("blue_time")) {
+                    piece.setName("blue_plus");
+                    piece.setImagePath(new File(piecesFolder, "blue_PlusPiece.png"));
+                } else if (name.equals("yellow_plus")) {
+                    piece.setName("yellow_time");
+                    piece.setImagePath(new File(piecesFolder, "yellow_TimePiece.png"));
+                } else if (name.equals("yellow_time")) {
+                    piece.setName("yellow_plus");
+                    piece.setImagePath(new File(piecesFolder, "yellow_PlusPiece.png"));
+                }
+
+                view.setIconForButton(buttonsall[x][y], piece.getImagePath(), name);
+
+            }
+        }
+    }
+
+    // Capture piece
     private void capturepiece(JButton clickedButton) {
 
-        PointPiece targetPiece = getPieceAtPosition(clickedButton);
+        Piece targetPiece = getPieceAtPosition(clickedButton);
 
         if (targetPiece != null) {
             // Capture the piece
@@ -484,10 +490,11 @@ public class ChessController {
         }
     }
 
+    // Rotate piece
     private void rotatepoint() {
         File piecesFolder = new File("pieces");
 
-        for (PointPiece piece : piecesMap.values()) {
+        for (Piece piece : piecesMap.values()) {
             int x = piece.getX();
             int y = piece.getY();
             String name = piece.getName();
@@ -528,10 +535,11 @@ public class ChessController {
         }
     }
 
+    // Flip board
     public void flipboard(JButton clickedButton) {
         File piecesFolder = new File("pieces");
 
-        for (PointPiece piece : piecesMap.values()) {
+        for (Piece piece : piecesMap.values()) {
             int newx = 5 - piece.getX();
             int newy = 6 - piece.getY();
             String name = piece.getName();
@@ -573,13 +581,14 @@ public class ChessController {
         }
     }
 
+    // Save logic
     public void save(String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             writer.write("Turn: " + turn + "\n");
             writer.write("Current Player: " + currentPlayer + "\n");
-            for (Map.Entry<String, PointPiece> entry : piecesMap.entrySet()) {
+            for (Map.Entry<String, Piece> entry : piecesMap.entrySet()) {
                 String key = entry.getKey();
-                PointPiece value = entry.getValue();
+                Piece value = entry.getValue();
                 String fileName = value.getImagePath().getName();
 
                 writer.write("Key: " + key + ", Piece: " + value.getName() + ", Path: " + fileName +
@@ -591,6 +600,7 @@ public class ChessController {
         }
     }
 
+    // Load logic
     public void load(String filePath) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -609,7 +619,7 @@ public class ChessController {
                     File path = new File("Pieces", imagePath);
 
                     // Create a new PointPiece and add it to the piecesMap
-                    PointPiece piece = new PointPiece(pieceName, path, x, y, player, status);
+                    Piece piece = new Piece(pieceName, path, x, y, player, status);
                     piecesMap.put(key, piece);
                 } else if (parts.length == 1 && parts[0].startsWith("Turn: ")) {
                     // Extract and set the currentPlayer value
@@ -643,14 +653,17 @@ public class ChessController {
         public void actionPerformed(ActionEvent e) {
             JButton clickedButton = buttonsall[x][y];
             // Check if the clicked button has a piece
-            PointPiece clickedPiece = getPieceAtPosition(x, y);
+            Piece clickedPiece = getPieceAtPosition(x, y);
 
             if (clickedPiece != null && clickedPiece.getPlayer() == currentPlayer) {
                 // If a piece is clicked, store it as the selected piece
+                if (selectedButton != null) {
+                    selectedButton.setBackground(originalButtonColors.get(selectedButton));
+                }
                 selectedButton = clickedButton;
                 selectedButton.setBackground(Color.GREEN);
 
-            } else if (selectedButton != null) {
+            } else if (selectedButton != null && (clickedPiece == null || clickedPiece.getPlayer() != currentPlayer)) {
                 selectedPiece = getPieceAtPosition(selectedButton);
 
                 if (ismovevalid(x, y)) {
@@ -683,10 +696,10 @@ public class ChessController {
                     rotatepoint(); // rotate point piece
                     flipboard(clickedButton);
                     switchPlayer(); // switch player
-                    changeturntotext(); // the player is saved as number 0 and 1. This will turn it to text
+                    getplayer(); // the player is saved as number 0 and 1. This will turn it to text
                     save("autosave.txt"); // will autosave after every move
 
-                    view.setText();
+                    view.setTurn();
                     view.setswap();
                 } else {
                     
