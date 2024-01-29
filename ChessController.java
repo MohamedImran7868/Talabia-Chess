@@ -19,6 +19,7 @@ public class ChessController {
     private static int column = 6;
     private static JButton[][] buttonsall = new JButton[column][row]; // JButton for each tile (42)
     private static Map<String, PointPiece> piecesMap = new HashMap<>(); // Map to store information about each piece
+    private Map<JButton, Color> originalButtonColors = new HashMap<>();
     private JButton selectedButton = null;
     private int turn = 0;
     private String player;
@@ -119,6 +120,11 @@ public class ChessController {
                 buttonsall[i][j].setBackground((i + j) % 2 == 0 ? Color.WHITE : Color.GRAY);
                 buttonsall[i][j].setPreferredSize(new Dimension(64, 64)); // Set preferred size here
                 buttonsall[i][j].addActionListener(new ButtonClickListener(i, j));
+
+                Color originalColor = (i + j) % 2 == 0 ? Color.WHITE : Color.GRAY;
+                // Store the original color for each button
+                originalButtonColors.put(buttonsall[i][j], originalColor);
+
                 panel.add(buttonsall[i][j]);
 
                 // Check if there is a piece at this position
@@ -605,12 +611,15 @@ public class ChessController {
             if (clickedPiece != null && clickedPiece.getPlayer() == currentPlayer) {
                 // If a piece is clicked, store it as the selected piece
                 selectedButton = clickedButton;
+                selectedButton.setBackground(Color.GREEN);
             } else if (selectedButton != null) {
                 selectedPiece = getPieceAtPosition(selectedButton);
 
                 if (ismovevalid(x, y)) {
 
                     capturepiece(clickedButton);
+
+                    selectedButton.setBackground(originalButtonColors.get(selectedButton));
 
                     // Update the piecesMap with the new coordinates
                     selectedPiece.setX(x);
@@ -621,9 +630,10 @@ public class ChessController {
 
                     // Clear the icon for the selected button
                     selectedButton.setIcon(null);
-
+                    
                     // Clear the selected button
                     selectedButton = null;
+
 
                     // for swap piece
                     if (turn == 3) {
