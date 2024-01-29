@@ -12,35 +12,43 @@ public class GUI {
     private ChessController controller;
     private JPanel board = new JPanel();
     private JLabel turn = new JLabel("Turn: YELLOW");
+    private JLabel swap = new JLabel("Move before swap: 4");
     private JPanel p;
 
     GUI() {
         
-        p = new JPanel(new GridLayout(2, 1));
+        p = new JPanel(new GridLayout(3, 1));
         frame.add(p);
         frame.setSize(300,250);
         controller = new ChessController(this);
+
+        JLabel Welcome = new JLabel("Welcome To Talabia Chess");
         JButton Start = new JButton("Start Game");
         JButton load = new JButton("Load Game");
-        
+
         JPanel startpanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JPanel loadpanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel welcomepanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
         p.setBackground(new Color (0, 255, 255));
+        welcomepanel.setBackground(new Color (0, 255, 255));
         startpanel.setBackground(new Color (0, 255, 255));
         loadpanel.setBackground(new Color (0, 255, 255));
 
         Start.setFocusable(false);
         load.setFocusable(false);
 
-        startpanel.add(Start);
-        loadpanel.add(load);
+        welcomepanel.add(Welcome, BorderLayout.CENTER);
+        startpanel.add(Start, BorderLayout.CENTER);
+        loadpanel.add(load, BorderLayout.CENTER);
 
+        Welcome.setFont(new Font("Times New Roman", Font.BOLD, 20));
         Start.setFont(new Font("Arial", Font.BOLD, 20));
         load.setFont(new Font("Arial", Font.BOLD, 20));
 
-        p.add(startpanel, BorderLayout.NORTH);
-        p.add(loadpanel, BorderLayout.CENTER);
+        p.add(welcomepanel, BorderLayout.NORTH);
+        p.add(startpanel, BorderLayout.CENTER);
+        p.add(loadpanel, BorderLayout.SOUTH);
 
         Start.addActionListener(new Start(true));
         load.addActionListener(new Load());
@@ -75,9 +83,11 @@ public class GUI {
             frame.setLocationRelativeTo(null);
             frame.setResizable(true);
 
-            JPanel tab = new JPanel();
+            JPanel tab = new JPanel(new GridLayout(1, 3));
             JButton save = new JButton("Save game");
-            JPanel optionPanel = new JPanel(new GridLayout(1, 3));
+            JPanel savePanel = new JPanel();
+            JPanel turnPanel = new JPanel();
+            JPanel swapPanel = new JPanel();
 
             save.setFocusable(false);
             tab.setLayout(new BorderLayout());
@@ -91,9 +101,12 @@ public class GUI {
             controller.initializeButtons(board);
             controller.changeturntotext();
 
-            optionPanel.add(save);
-            optionPanel.add(turn, BorderLayout.EAST);
-            tab.add(optionPanel, BorderLayout.WEST);
+            savePanel.add(save);
+            turnPanel.add(turn);
+            swapPanel.add(swap);
+            tab.add(savePanel, BorderLayout.WEST);
+            tab.add(turnPanel, BorderLayout.CENTER);
+            tab.add(swapPanel, BorderLayout.EAST);
 
             frame.add(tab, BorderLayout.NORTH);
             frame.add(board, BorderLayout.CENTER);
@@ -105,14 +118,11 @@ public class GUI {
 
     public void setIconForButton(JButton button, File imageFile, String name) {
         try {
-            // Get the canonical file path to handle case sensitivity
-            String canonicalPath = imageFile.getCanonicalPath();
-            File canonicalFile = new File(canonicalPath);
             
-            BufferedImage image = ImageIO.read(canonicalFile);
+            BufferedImage image = ImageIO.read(imageFile);
 
             // Scale the image to fit the button
-            Image newImage = image.getScaledInstance(64, 64, java.awt.Image.SCALE_SMOOTH);
+            Image newImage = image.getScaledInstance(85, 85, java.awt.Image.SCALE_SMOOTH);
 
             // Create a new ImageIcon with the scaled image
             ImageIcon icon = new ImageIcon(newImage);
@@ -187,9 +197,14 @@ public class GUI {
 
     public void gameover() {
         JOptionPane.showMessageDialog(frame, "GAME ENDS. " + controller.getplayer() + " WINS.", "GAME OVER!!!", JOptionPane.INFORMATION_MESSAGE);
+        System.exit(0);
     }
 
     public void setText() {
         turn.setText("Turn: " + controller.getplayer());
+    }
+
+    public void setswap() {
+        swap.setText("Move before swap: " + controller.getturn());
     }
 }
