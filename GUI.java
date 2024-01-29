@@ -25,7 +25,7 @@ public class GUI {
         JLabel Welcome = new JLabel("Welcome To Talabia Chess");
         JButton Start = new JButton("Start Game");
         JButton load = new JButton("Load Game");
-
+        ImageIcon icon = new ImageIcon("Horse.jpg");
         JPanel startpanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JPanel loadpanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JPanel welcomepanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -60,6 +60,7 @@ public class GUI {
         load.setForeground(Color.WHITE);
 
         // Settings frame
+        frame.setIconImage(icon.getImage());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null); // Center the frame on the screen
         frame.setResizable(true);
