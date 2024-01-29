@@ -172,33 +172,21 @@ public class ChessController {
             String name = piece.getName();
             String status = piece.getStatus();
 
-            if (status.equals("alive") && name.equals("blue_plus")) {
-                piece.setName("blue_time");
-                piece.setImagePath(new File(piecesFolder, "blue_TimePiece.png"));
+            if (status.equals("alive")) {
 
-                view.setIconForButton(buttonsall[x][y], piece.getImagePath(), name);
-
-            }
-
-            else if (status.equals("alive") && name.equals("blue_time")) {
-                piece.setName("blue_plus");
-                piece.setImagePath(new File(piecesFolder, "blue_PlusPiece.png"));
-
-                view.setIconForButton(buttonsall[x][y], piece.getImagePath(), name);
-
-            }
-
-            else if (status.equals("alive") && name.equals("yellow_plus")) {
-                piece.setName("yellow_time");
-                piece.setImagePath(new File(piecesFolder, "yellow_TimePiece.png"));
-
-                view.setIconForButton(buttonsall[x][y], piece.getImagePath(), name);
-
-            }
-
-            else if (status.equals("alive") && name.equals("yellow_time")) {
-                piece.setName("yellow_plus");
-                piece.setImagePath(new File(piecesFolder, "yellow_PlusPiece.png"));
+                if (name.equals("blue_plus")) {
+                    piece.setName("blue_time");
+                    piece.setImagePath(new File(piecesFolder, "blue_TimePiece.png"));
+                } else if (name.equals("blue_time")) {
+                    piece.setName("blue_plus");
+                    piece.setImagePath(new File(piecesFolder, "blue_PlusPiece.png"));
+                } else if (name.equals("yellow_plus")) {
+                    piece.setName("yellow_time");
+                    piece.setImagePath(new File(piecesFolder, "yellow_TimePiece.png"));
+                } else if (name.equals("yellow_time")) {
+                    piece.setName("yellow_plus");
+                    piece.setImagePath(new File(piecesFolder, "yellow_PlusPiece.png"));
+                }
 
                 view.setIconForButton(buttonsall[x][y], piece.getImagePath(), name);
 
@@ -593,6 +581,51 @@ public class ChessController {
         }
     }
 
+    public void flipboard(JButton clickedButton) {
+        File piecesFolder = new File("pieces");
+
+        for (PointPiece piece : piecesMap.values()) {
+            int newx = 5 - piece.getX();
+            int newy = 6 - piece.getY();
+            String name = piece.getName();
+            String status = piece.getStatus();
+
+            if (status.equals("alive")) {
+
+                if (name.equals("blue_point")) {
+                    piece.setName("blue_pointflipped");
+                    piece.setImagePath(new File(piecesFolder, "blue_PointPieceFlipped.png"));
+                } else if (name.equals("blue_pointflipped")) {
+                    piece.setName("blue_point");
+                    piece.setImagePath(new File(piecesFolder, "blue_PointPiece.png"));
+                } else if (name.equals("yellow_point")) {
+                    piece.setName("yellow_pointflipped");
+                    piece.setImagePath(new File(piecesFolder, "yellow_PointPieceFlipped.png"));
+                } else if (name.equals("yellow_pointflipped")) {
+                    piece.setName("yellow_point");
+                    piece.setImagePath(new File(piecesFolder, "yellow_PointPiece.png"));
+                }
+
+                piece.setX(newx);
+                piece.setY(newy);
+                
+                view.setIconForButton(buttonsall[newx][newy], piece.getImagePath(), name);
+
+            }
+
+            for (int i = 0; i < 6; i++) {
+                for (int j = 0; j < 7; j++) {
+    
+                    // Check if there is a piece at this position
+                    piece = getPieceAtPosition(i, j);
+                    if (piece == null) {
+                        buttonsall[i][j].setIcon(null);
+                    }
+                }
+            }
+        }
+    }
+
     public class ButtonClickListener implements ActionListener {
         private int x;
         private int y;
@@ -634,7 +667,6 @@ public class ChessController {
                     // Clear the selected button
                     selectedButton = null;
 
-
                     // for swap piece
                     if (turn == 3) {
                         swapPiece();
@@ -644,6 +676,8 @@ public class ChessController {
                     }
 
                     rotatepoint(); // rotate point piece
+                    flipboard(clickedButton);
+
                     save("autosave.txt"); // will autosave after every move
                     switchPlayer(); // switch player
                     changeturntotext(); // the player is saved as number 0 and 1. This will turn it to text
