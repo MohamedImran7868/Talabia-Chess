@@ -1,0 +1,30 @@
+Turn: 2
+Current Player: 0
+Key: blue_plus0, Piece: blue_plus, Path: blue_PlusPiece.png, X: 0, Y: 0, Player: 1, Status: alive
+Key: blue_plus1, Piece: blue_plus, Path: blue_PlusPiece.png, X: 0, Y: 6, Player: 1, Status: alive
+Key: yellow_hourglass1, Piece: yellow_hourglass, Path: yellow_Hourglasspiece.png, X: 5, Y: 5, Player: 0, Status: alive
+Key: yellow_hourglass0, Piece: yellow_hourglass, Path: yellow_Hourglasspiece.png, X: 5, Y: 1, Player: 0, Status: alive
+Key: blue_sun, Piece: blue_sun, Path: blue_SunPiece.png, X: 0, Y: 3, Player: 1, Status: alive
+Key: yellow_time0, Piece: yellow_time, Path: yellow_TimePiece.png, X: 5, Y: 2, Player: 0, Status: alive
+Key: yellow_time1, Piece: yellow_time, Path: yellow_TimePiece.png, X: 5, Y: 4, Player: 0, Status: alive
+Key: yellow_point4, Piece: yellow_point, Path: yellow_PointPiece.png, X: 4, Y: 4, Player: 0, Status: alive
+Key: yellow_point3, Piece: yellow_point, Path: yellow_PointPiece.png, X: 4, Y: 3, Player: 0, Status: alive
+Key: yellow_plus1, Piece: yellow_plus, Path: yellow_PlusPiece.png, X: 5, Y: 6, Player: 0, Status: alive
+Key: yellow_point2, Piece: yellow_point, Path: yellow_PointPiece.png, X: 2, Y: 2, Player: 0, Status: alive
+Key: yellow_point1, Piece: yellow_point, Path: yellow_PointPiece.png, X: 4, Y: 1, Player: 0, Status: alive
+Key: blue_point0, Piece: blue_point, Path: blue_PointPiece.png, X: 1, Y: 0, Player: 1, Status: alive
+Key: yellow_point0, Piece: yellow_point, Path: yellow_PointPiece.png, X: 4, Y: 0, Player: 0, Status: alive
+Key: blue_hourglass1, Piece: blue_hourglass, Path: blue_HourglassPiece.png, X: 0, Y: 5, Player: 1, Status: alive
+Key: blue_point2, Piece: blue_point, Path: blue_PointPiece.png, X: 1, Y: 2, Player: 1, Status: alive
+Key: blue_hourglass0, Piece: blue_hourglass, Path: blue_HourglassPiece.png, X: 0, Y: 1, Player: 1, Status: alive
+Key: yellow_plus0, Piece: yellow_plus, Path: yellow_PlusPiece.png, X: 5, Y: 0, Player: 0, Status: alive
+Key: blue_point1, Piece: blue_point, Path: blue_PointPiece.png, X: 1, Y: 1, Player: 1, Status: alive
+Key: blue_point4, Piece: blue_point, Path: blue_PointPiece.png, X: 3, Y: 4, Player: 1, Status: alive
+Key: blue_point3, Piece: blue_point, Path: blue_PointPiece.png, X: 1, Y: 3, Player: 1, Status: alive
+Key: blue_point6, Piece: blue_point, Path: blue_PointPiece.png, X: 1, Y: 6, Player: 1, Status: alive
+Key: blue_point5, Piece: blue_point, Path: blue_PointPiece.png, X: 1, Y: 5, Player: 1, Status: alive
+Key: blue_time1, Piece: blue_time, Path: blue_TimePiece.png, X: 0, Y: 4, Player: 1, Status: alive
+Key: blue_time0, Piece: blue_time, Path: blue_TimePiece.png, X: 0, Y: 2, Player: 1, Status: alive
+Key: yellow_sun, Piece: yellow_sun, Path: yellow_SunPiece.png, X: 5, Y: 3, Player: 0, Status: alive
+Key: yellow_point6, Piece: yellow_point, Path: yellow_PointPiece.png, X: 4, Y: 6, Player: 0, Status: alive
+Key: yellow_point5, Piece: yellow_point, Path: yellow_PointPiece.png, X: 4, Y: 5, Player: 0, Status: alive
